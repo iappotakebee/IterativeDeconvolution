@@ -68,6 +68,8 @@
 
 
 // Initialize the number of data and all the arrays
+int    InitDisplay(int n_tgt, int n_uni, int hn_uni, int n_all,
+          double init_st, double init_en);
 int    InitFileNames(const char *fpth, char *time, char *fnm, 
           char *newfpth);
 int    InitInputNum(int *n_tgt, int *n_uni, int *n_all, 
@@ -108,9 +110,6 @@ int    GetCurrentTime(char *str);
 
 int main (int argc, char *argv[])
 {
-  printf("\n                                       \n");
-  printf("    Iterative Deconvolution Started   \n");
-  printf("***************************************\n\n");
   /**************************************************************
     Parameters to adjust deconvolution performance
   **************************************************************/
@@ -198,14 +197,7 @@ int main (int argc, char *argv[])
   ReadInputDat(target, &n_tgt, unit, &n_uni, dwelltime, 
       offset_t, &n_all, &hn_uni, infilepth_tgt, infilepth_uni);
   init_en = GetCPUTime();
-  // display the number of entries in the input data
-  printf("The number of entries\n");
-  printf("  # Target   : %7d\n",  n_tgt);
-  printf("  # Unit     : %7d\n",  n_uni);
-  printf("  # 1/2 Unit : %7d\n", hn_uni);
-  printf("  # All      : %7d\n",  n_all);
-  printf("Computation time for initialization: %9.4lf\n", 
-      init_en-init_st);
+  InitDisplay(n_tgt,n_uni,hn_uni,n_all,init_st,init_en);
   /**************************************************************
     Calculate the dwell time in the loop
   **************************************************************/
@@ -347,6 +339,23 @@ int main (int argc, char *argv[])
 /**************************************************************
    Initialize the number of data and all the arrays
 **************************************************************/
+int InitDisplay(int n_tgt, int n_uni, int hn_uni, int n_all,
+    double init_st, double init_en)
+{
+  printf("\n                                       \n");
+  printf("    Iterative Deconvolution Started   \n");
+  printf("***************************************\n\n");
+  // display the number of entries in the input data
+  printf("The number of entries\n");
+  printf("  # Target   : %7d\n",  n_tgt);
+  printf("  # Unit     : %7d\n",  n_uni);
+  printf("  # 1/2 Unit : %7d\n", hn_uni);
+  printf("  # All      : %7d\n",  n_all);
+  printf("Computation time for initialization: %9.4lf\n", 
+      init_en-init_st);
+  printf("\n");
+  return 0;
+}
 int InitFileNames(const char* fpth, char* time, char* fnm, 
     char* newfpth)
 {
