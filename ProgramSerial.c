@@ -31,9 +31,40 @@
   alpha: 
     Adjust alpha in the update section 
     when the error diverges.
+  ls_alpha:
+    Adjust ls_alpha when the ratio of decrease in alpha
+    should be optimized. ls_alpha lessen alpha
+    when the error in RMS exceed the previous value.
+  lim_alpha:
+    lim_alpha determines the lower limit of alpha.
+    Even when alpha is repeatedly multiplied by ls_alpha,
+    alpha cannot be less than lim_alpha.
   threshold:
     Change the threshold to escape from the loop calculation 
     when the shape errors are reduced to this value in RMS.
+  offset_t:
+    offset_t determines the lower limit of dwell time.
+    This should be more than zero, and can consider
+    the minimum duration in transfer of the stage.
+
+// Descritption of some macro parameters 
+  N_LOOPMAX:
+    The maximum number of iterrative computations.
+  N_LOOPREC:
+    The interval between recording the results.
+    The output files illustrate how data converge
+    every N_LOOPREC times.
+  N_LOOPDISP:
+    The interval between displaying the results.
+    The results include the iterative times,
+    alpha, and error in rms.
+
+
+// Some useful arguments
+  addtime:
+    When addtime is VALID, the year, day, and time 
+    are added to the top of the output filenames.
+    
  */
 
 #include<stdio.h>
@@ -49,10 +80,9 @@
 #define VALID   0
 #define INVALID 1
 #define BUF_SIZE   1024
-#define N_MAX      10E6
-#define N_LOOPMAX  1E3
-#define N_LOOPREC  1E2
-#define N_LOOPDISP 10
+#define N_LOOPMAX  2E5
+#define N_LOOPREC  1E4
+#define N_LOOPDISP 4E2
 #define EPSILON    0.001
 #define N_ARRAYS  5
 #define N_TARGET  0
@@ -113,12 +143,12 @@ int main (int argc, char *argv[])
   /**************************************************************
     Parameters to adjust deconvolution performance
   **************************************************************/
-  double       alpha     = 60;
+  double       alpha     = 15;
   const double ls_alpha  = 0.95;
   //const double mr_alpha  = 1.05;
-  const double lim_alpha = 10.0E-10;
+  const double lim_alpha = 1.0E-6;
   double       threshold = 0.1;
-  const double offset_t = 0.0; // in ms
+  const double offset_t = 300.0; // in ms
   /**************************************************************
     Some useful arguments (change them where necessary)
   **************************************************************/

@@ -1,0 +1,1184 @@
+Read the target shape in
+ ./files/input/20190408ResidueMirrorAndCyl_MA-0.08mmOffset300nm.txt
+Read the unit sputter yield in
+ ./files/input/20190408SputterYieldon20190408.txt
+
+                                       
+    Iterative Deconvolution Started   
+***************************************
+
+The number of entries
+  # Target   :    4400
+  # Unit     :    2141
+  # 1/2 Unit :    1070
+  # All      :    8682
+The number of threads
+  # Total    :       4
+  # Thread   :       1
+  # Thread   :       2
+  # Thread   :       3
+  # Thread   :       0
+Computation time for initialization:    0.0039
+
+Have memorized arrays 1 times
+loop:       400, alpha:   10.5000, rms:    8.7993
+loop:       800, alpha:   10.5000, rms:    6.2019
+loop:      1200, alpha:   10.5000, rms:    5.1175
+loop:      1600, alpha:   10.5000, rms:    4.4896
+loop:      2000, alpha:   10.5000, rms:    4.0607
+loop:      2400, alpha:   10.5000, rms:    3.7415
+loop:      2800, alpha:   10.5000, rms:    3.4924
+loop:      3200, alpha:   10.5000, rms:    3.2927
+loop:      3600, alpha:   10.5000, rms:    3.1295
+loop:      4000, alpha:   10.5000, rms:    2.9946
+loop:      4400, alpha:   10.5000, rms:    2.8818
+loop:      4800, alpha:   10.5000, rms:    2.7867
+loop:      5200, alpha:   10.5000, rms:    2.7059
+loop:      5600, alpha:   10.5000, rms:    2.6367
+loop:      6000, alpha:   10.5000, rms:    2.5770
+loop:      6400, alpha:   10.5000, rms:    2.5251
+loop:      6800, alpha:   10.5000, rms:    2.4798
+loop:      7200, alpha:   10.5000, rms:    2.4398
+loop:      7600, alpha:   10.5000, rms:    2.4045
+loop:      8000, alpha:   10.5000, rms:    2.3730
+loop:      8400, alpha:   10.5000, rms:    2.3447
+loop:      8800, alpha:   10.5000, rms:    2.3193
+loop:      9200, alpha:   10.5000, rms:    2.2962
+loop:      9600, alpha:   10.5000, rms:    2.2752
+Have memorized arrays 2 times
+loop:     10000, alpha:   10.5000, rms:    2.2560
+loop:     10400, alpha:   10.5000, rms:    2.2383
+loop:     10800, alpha:   10.5000, rms:    2.2221
+loop:     11200, alpha:   10.5000, rms:    2.2070
+loop:     11600, alpha:   10.5000, rms:    2.1929
+loop:     12000, alpha:   10.5000, rms:    2.1799
+loop:     12400, alpha:   10.5000, rms:    2.1676
+loop:     12800, alpha:   10.5000, rms:    2.1562
+loop:     13200, alpha:   10.5000, rms:    2.1454
+loop:     13600, alpha:   10.5000, rms:    2.1352
+loop:     14000, alpha:   10.5000, rms:    2.1256
+loop:     14400, alpha:   10.5000, rms:    2.1165
+loop:     14800, alpha:   10.5000, rms:    2.1078
+loop:     15200, alpha:   10.5000, rms:    2.0996
+loop:     15600, alpha:   10.5000, rms:    2.0918
+loop:     16000, alpha:   10.5000, rms:    2.0844
+loop:     16400, alpha:   10.5000, rms:    2.0773
+loop:     16800, alpha:   10.5000, rms:    2.0705
+loop:     17200, alpha:   10.5000, rms:    2.0641
+loop:     17600, alpha:   10.5000, rms:    2.0579
+loop:     18000, alpha:   10.5000, rms:    2.0519
+loop:     18400, alpha:   10.5000, rms:    2.0462
+loop:     18800, alpha:   10.5000, rms:    2.0407
+loop:     19200, alpha:   10.5000, rms:    2.0354
+loop:     19600, alpha:   10.5000, rms:    2.0304
+Have memorized arrays 3 times
+loop:     20000, alpha:   10.5000, rms:    2.0255
+loop:     20400, alpha:   10.5000, rms:    2.0208
+loop:     20800, alpha:   10.5000, rms:    2.0162
+loop:     21200, alpha:   10.5000, rms:    2.0118
+loop:     21600, alpha:   10.5000, rms:    2.0076
+loop:     22000, alpha:   10.5000, rms:    2.0035
+loop:     22400, alpha:   10.5000, rms:    1.9996
+loop:     22800, alpha:   10.5000, rms:    1.9958
+loop:     23200, alpha:   10.5000, rms:    1.9921
+loop:     23600, alpha:   10.5000, rms:    1.9885
+loop:     24000, alpha:   10.5000, rms:    1.9850
+loop:     24400, alpha:   10.5000, rms:    1.9817
+loop:     24800, alpha:   10.5000, rms:    1.9785
+loop:     25200, alpha:   10.5000, rms:    1.9753
+loop:     25600, alpha:   10.5000, rms:    1.9723
+loop:     26000, alpha:   10.5000, rms:    1.9693
+loop:     26400, alpha:   10.5000, rms:    1.9665
+loop:     26800, alpha:   10.5000, rms:    1.9637
+loop:     27200, alpha:   10.5000, rms:    1.9610
+loop:     27600, alpha:   10.5000, rms:    1.9584
+loop:     28000, alpha:   10.5000, rms:    1.9559
+loop:     28400, alpha:   10.5000, rms:    1.9535
+loop:     28800, alpha:   10.5000, rms:    1.9511
+loop:     29200, alpha:   10.5000, rms:    1.9488
+loop:     29600, alpha:   10.5000, rms:    1.9466
+Have memorized arrays 4 times
+loop:     30000, alpha:   10.5000, rms:    1.9444
+loop:     30400, alpha:   10.5000, rms:    1.9423
+loop:     30800, alpha:   10.5000, rms:    1.9403
+loop:     31200, alpha:   10.5000, rms:    1.9384
+loop:     31600, alpha:   10.5000, rms:    1.9365
+loop:     32000, alpha:   10.5000, rms:    1.9346
+loop:     32400, alpha:   10.5000, rms:    1.9329
+loop:     32800, alpha:   10.5000, rms:    1.9311
+loop:     33200, alpha:   10.5000, rms:    1.9295
+loop:     33600, alpha:   10.5000, rms:    1.9278
+loop:     34000, alpha:   10.5000, rms:    1.9263
+loop:     34400, alpha:   10.5000, rms:    1.9247
+loop:     34800, alpha:   10.5000, rms:    1.9233
+loop:     35200, alpha:   10.5000, rms:    1.9218
+loop:     35600, alpha:   10.5000, rms:    1.9205
+loop:     36000, alpha:   10.5000, rms:    1.9191
+loop:     36400, alpha:   10.5000, rms:    1.9178
+loop:     36800, alpha:   10.5000, rms:    1.9166
+loop:     37200, alpha:   10.5000, rms:    1.9154
+loop:     37600, alpha:   10.5000, rms:    1.9143
+loop:     38000, alpha:   10.5000, rms:    1.9131
+loop:     38400, alpha:   10.5000, rms:    1.9121
+loop:     38800, alpha:   10.5000, rms:    1.9110
+loop:     39200, alpha:   10.5000, rms:    1.9101
+loop:     39600, alpha:   10.5000, rms:    1.9091
+Have memorized arrays 5 times
+loop:     40000, alpha:   10.5000, rms:    1.9082
+loop:     40400, alpha:   10.5000, rms:    1.9073
+loop:     40800, alpha:   10.5000, rms:    1.9065
+loop:     41200, alpha:   10.5000, rms:    1.9057
+loop:     41600, alpha:   10.5000, rms:    1.9050
+loop:     42000, alpha:   10.5000, rms:    1.9043
+loop:     42400, alpha:   10.5000, rms:    1.9036
+loop:     42800, alpha:   10.5000, rms:    1.9029
+loop:     43200, alpha:   10.5000, rms:    1.9023
+loop:     43600, alpha:   10.5000, rms:    1.9017
+loop:     44000, alpha:   10.5000, rms:    1.9012
+loop:     44400, alpha:   10.5000, rms:    1.9007
+loop:     44800, alpha:   10.5000, rms:    1.9002
+loop:     45200, alpha:   10.5000, rms:    1.8997
+loop:     45600, alpha:   10.5000, rms:    1.8993
+loop:     46000, alpha:   10.5000, rms:    1.8989
+loop:     46400, alpha:   10.5000, rms:    1.8985
+loop:     46800, alpha:   10.5000, rms:    1.8982
+loop:     47200, alpha:   10.5000, rms:    1.8979
+loop:     47600, alpha:   10.5000, rms:    1.8976
+loop:     48000, alpha:   10.5000, rms:    1.8973
+loop:     48400, alpha:   10.5000, rms:    1.8971
+loop:     48800, alpha:   10.5000, rms:    1.8969
+loop:     49200, alpha:   10.5000, rms:    1.8967
+loop:     49600, alpha:   10.5000, rms:    1.8966
+Have memorized arrays 6 times
+loop:     50000, alpha:   10.5000, rms:    1.8964
+loop:     50400, alpha:   10.5000, rms:    1.8963
+loop:     50800, alpha:   10.5000, rms:    1.8963
+loop:     51200, alpha:   10.5000, rms:    1.8962
+loop:     51600, alpha:   10.5000, rms:    1.8962
+loop:     52000, alpha:   10.5000, rms:    1.8961
+loop:     52400, alpha:   10.5000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52736, alpha:    9.9750, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52737, alpha:    9.4762, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52739, alpha:    9.0024, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52741, alpha:    8.5523, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52743, alpha:    8.1247, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52744, alpha:    7.7185, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52746, alpha:    7.3325, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52748, alpha:    6.9659, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52750, alpha:    6.6176, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52752, alpha:    6.2867, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52754, alpha:    5.9724, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52756, alpha:    5.6738, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52758, alpha:    5.3901, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52760, alpha:    5.1206, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52761, alpha:    4.8646, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52763, alpha:    4.6213, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52765, alpha:    4.3903, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52767, alpha:    4.1708, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52769, alpha:    3.9622, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52771, alpha:    3.7641, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52773, alpha:    3.5759, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52775, alpha:    3.3971, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52777, alpha:    3.2272, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52779, alpha:    3.0659, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52781, alpha:    2.9126, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52783, alpha:    2.7670, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52785, alpha:    2.6286, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52787, alpha:    2.4972, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52789, alpha:    2.3723, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52790, alpha:    2.2537, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52792, alpha:    2.1410, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52794, alpha:    2.0340, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52796, alpha:    1.9323, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52797, alpha:    1.8357, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52799, alpha:    1.7439, rms:    1.8961
+loop:     52800, alpha:    1.7439, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52801, alpha:    1.6567, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52802, alpha:    1.5738, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52804, alpha:    1.4952, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52806, alpha:    1.4204, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52808, alpha:    1.3494, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52810, alpha:    1.2819, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52812, alpha:    1.2178, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52814, alpha:    1.1569, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52816, alpha:    1.0991, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52817, alpha:    1.0441, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52819, alpha:    0.9919, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52821, alpha:    0.9423, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52822, alpha:    0.8952, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52824, alpha:    0.8504, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52826, alpha:    0.8079, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52828, alpha:    0.7675, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52830, alpha:    0.7291, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52832, alpha:    0.6927, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52833, alpha:    0.6581, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52835, alpha:    0.6252, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52837, alpha:    0.5939, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52839, alpha:    0.5642, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52841, alpha:    0.5360, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52843, alpha:    0.5092, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52845, alpha:    0.4837, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52847, alpha:    0.4595, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52849, alpha:    0.4366, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52851, alpha:    0.4147, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52853, alpha:    0.3940, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52855, alpha:    0.3743, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52857, alpha:    0.3556, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52859, alpha:    0.3378, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52861, alpha:    0.3209, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52863, alpha:    0.3049, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52865, alpha:    0.2896, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52866, alpha:    0.2751, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52868, alpha:    0.2614, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52870, alpha:    0.2483, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52872, alpha:    0.2359, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52874, alpha:    0.2241, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52876, alpha:    0.2129, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52877, alpha:    0.2023, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52879, alpha:    0.1921, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52881, alpha:    0.1825, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52883, alpha:    0.1734, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52885, alpha:    0.1647, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52887, alpha:    0.1565, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52889, alpha:    0.1487, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52891, alpha:    0.1412, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52893, alpha:    0.1342, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52895, alpha:    0.1275, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52897, alpha:    0.1211, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52898, alpha:    0.1150, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52900, alpha:    0.1093, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52902, alpha:    0.1038, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52904, alpha:    0.0986, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52906, alpha:    0.0937, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52907, alpha:    0.0890, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52909, alpha:    0.0846, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52911, alpha:    0.0803, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52913, alpha:    0.0763, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52915, alpha:    0.0725, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52916, alpha:    0.0689, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52918, alpha:    0.0654, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52920, alpha:    0.0622, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52922, alpha:    0.0591, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52924, alpha:    0.0561, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52926, alpha:    0.0533, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52928, alpha:    0.0506, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52930, alpha:    0.0481, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52932, alpha:    0.0457, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52934, alpha:    0.0434, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52936, alpha:    0.0412, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52938, alpha:    0.0392, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52940, alpha:    0.0372, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52942, alpha:    0.0354, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52944, alpha:    0.0336, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52946, alpha:    0.0319, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52948, alpha:    0.0303, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52950, alpha:    0.0288, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52952, alpha:    0.0274, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52954, alpha:    0.0260, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52956, alpha:    0.0247, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52958, alpha:    0.0235, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52960, alpha:    0.0223, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52962, alpha:    0.0212, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52964, alpha:    0.0201, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52965, alpha:    0.0191, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52967, alpha:    0.0182, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52969, alpha:    0.0172, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52971, alpha:    0.0164, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52973, alpha:    0.0156, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52975, alpha:    0.0148, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52977, alpha:    0.0140, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52979, alpha:    0.0133, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52981, alpha:    0.0127, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52983, alpha:    0.0120, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52984, alpha:    0.0114, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52986, alpha:    0.0109, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52988, alpha:    0.0103, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52989, alpha:    0.0098, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52991, alpha:    0.0093, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52993, alpha:    0.0089, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52994, alpha:    0.0084, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52996, alpha:    0.0080, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     52998, alpha:    0.0076, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53000, alpha:    0.0072, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53001, alpha:    0.0068, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53003, alpha:    0.0065, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53005, alpha:    0.0062, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53007, alpha:    0.0059, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53009, alpha:    0.0056, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53011, alpha:    0.0053, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53012, alpha:    0.0050, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53014, alpha:    0.0048, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53016, alpha:    0.0045, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53018, alpha:    0.0043, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53020, alpha:    0.0041, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53022, alpha:    0.0039, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53024, alpha:    0.0037, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53026, alpha:    0.0035, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53028, alpha:    0.0033, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53030, alpha:    0.0032, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53032, alpha:    0.0030, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53033, alpha:    0.0029, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53035, alpha:    0.0027, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53037, alpha:    0.0026, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53039, alpha:    0.0025, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53040, alpha:    0.0023, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53042, alpha:    0.0022, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53044, alpha:    0.0021, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53046, alpha:    0.0020, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53048, alpha:    0.0019, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53050, alpha:    0.0018, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53052, alpha:    0.0017, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53054, alpha:    0.0016, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53056, alpha:    0.0015, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53058, alpha:    0.0015, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53059, alpha:    0.0014, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53061, alpha:    0.0013, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53063, alpha:    0.0013, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53064, alpha:    0.0012, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53065, alpha:    0.0011, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53067, alpha:    0.0011, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53069, alpha:    0.0010, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53070, alpha:    0.0010, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53072, alpha:    0.0009, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53074, alpha:    0.0009, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53076, alpha:    0.0008, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53078, alpha:    0.0008, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53080, alpha:    0.0008, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53082, alpha:    0.0007, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53084, alpha:    0.0007, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53085, alpha:    0.0006, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53086, alpha:    0.0006, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53088, alpha:    0.0006, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53090, alpha:    0.0006, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53091, alpha:    0.0005, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53093, alpha:    0.0005, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53094, alpha:    0.0005, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53096, alpha:    0.0005, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53098, alpha:    0.0004, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53100, alpha:    0.0004, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53102, alpha:    0.0004, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53103, alpha:    0.0004, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53105, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53107, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53108, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53110, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53112, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53114, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53116, alpha:    0.0003, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53118, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53120, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53122, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53124, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53126, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53128, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53130, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53132, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53134, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53135, alpha:    0.0002, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53137, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53139, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53141, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53143, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53145, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53147, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53149, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53151, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53153, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53155, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53157, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53159, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53161, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53163, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53165, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53167, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53169, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53171, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53173, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53175, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53177, alpha:    0.0001, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53179, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53181, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53183, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53185, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53187, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53188, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53190, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53192, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53194, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53196, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53199, alpha:    0.0000, rms:    1.8961
+loop:     53200, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53200, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53202, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53204, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53206, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53208, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53209, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53211, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53214, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53216, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53218, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53219, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53221, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53224, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53227, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53229, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53231, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53234, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53236, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53238, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53241, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53243, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53244, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53246, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53248, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53250, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53252, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53255, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53257, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53259, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53260, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53263, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53265, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53267, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53271, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53273, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53276, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53277, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53281, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53284, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53287, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53289, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53291, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53295, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53297, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53298, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53303, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53306, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53307, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53309, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53312, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53314, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53317, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53318, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53321, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53324, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53327, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53329, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53332, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53334, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53339, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53342, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53343, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53345, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53350, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53353, alpha:    0.0000, rms:    1.8961
+Multiplied alpha by    0.9500
+loop:     53354, alpha:    0.0000, rms:    1.8961
+loop:     53600, alpha:    0.0000, rms:    1.8961
+loop:     54000, alpha:    0.0000, rms:    1.8961
+loop:     54400, alpha:    0.0000, rms:    1.8961
+loop:     54800, alpha:    0.0000, rms:    1.8961
+loop:     55200, alpha:    0.0000, rms:    1.8961
+loop:     55600, alpha:    0.0000, rms:    1.8961
+loop:     56000, alpha:    0.0000, rms:    1.8961
+loop:     56400, alpha:    0.0000, rms:    1.8961
+loop:     56800, alpha:    0.0000, rms:    1.8961
+loop:     57200, alpha:    0.0000, rms:    1.8961
+loop:     57600, alpha:    0.0000, rms:    1.8961
+loop:     58000, alpha:    0.0000, rms:    1.8961
+loop:     58400, alpha:    0.0000, rms:    1.8961
+loop:     58800, alpha:    0.0000, rms:    1.8961
+loop:     59200, alpha:    0.0000, rms:    1.8961
+loop:     59600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 7 times
+loop:     60000, alpha:    0.0000, rms:    1.8961
+loop:     60400, alpha:    0.0000, rms:    1.8961
+loop:     60800, alpha:    0.0000, rms:    1.8961
+loop:     61200, alpha:    0.0000, rms:    1.8961
+loop:     61600, alpha:    0.0000, rms:    1.8961
+loop:     62000, alpha:    0.0000, rms:    1.8961
+loop:     62400, alpha:    0.0000, rms:    1.8961
+loop:     62800, alpha:    0.0000, rms:    1.8961
+loop:     63200, alpha:    0.0000, rms:    1.8961
+loop:     63600, alpha:    0.0000, rms:    1.8961
+loop:     64000, alpha:    0.0000, rms:    1.8961
+loop:     64400, alpha:    0.0000, rms:    1.8961
+loop:     64800, alpha:    0.0000, rms:    1.8961
+loop:     65200, alpha:    0.0000, rms:    1.8961
+loop:     65600, alpha:    0.0000, rms:    1.8961
+loop:     66000, alpha:    0.0000, rms:    1.8961
+loop:     66400, alpha:    0.0000, rms:    1.8961
+loop:     66800, alpha:    0.0000, rms:    1.8961
+loop:     67200, alpha:    0.0000, rms:    1.8961
+loop:     67600, alpha:    0.0000, rms:    1.8961
+loop:     68000, alpha:    0.0000, rms:    1.8961
+loop:     68400, alpha:    0.0000, rms:    1.8961
+loop:     68800, alpha:    0.0000, rms:    1.8961
+loop:     69200, alpha:    0.0000, rms:    1.8961
+loop:     69600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 8 times
+loop:     70000, alpha:    0.0000, rms:    1.8961
+loop:     70400, alpha:    0.0000, rms:    1.8961
+loop:     70800, alpha:    0.0000, rms:    1.8961
+loop:     71200, alpha:    0.0000, rms:    1.8961
+loop:     71600, alpha:    0.0000, rms:    1.8961
+loop:     72000, alpha:    0.0000, rms:    1.8961
+loop:     72400, alpha:    0.0000, rms:    1.8961
+loop:     72800, alpha:    0.0000, rms:    1.8961
+loop:     73200, alpha:    0.0000, rms:    1.8961
+loop:     73600, alpha:    0.0000, rms:    1.8961
+loop:     74000, alpha:    0.0000, rms:    1.8961
+loop:     74400, alpha:    0.0000, rms:    1.8961
+loop:     74800, alpha:    0.0000, rms:    1.8961
+loop:     75200, alpha:    0.0000, rms:    1.8961
+loop:     75600, alpha:    0.0000, rms:    1.8961
+loop:     76000, alpha:    0.0000, rms:    1.8961
+loop:     76400, alpha:    0.0000, rms:    1.8961
+loop:     76800, alpha:    0.0000, rms:    1.8961
+loop:     77200, alpha:    0.0000, rms:    1.8961
+loop:     77600, alpha:    0.0000, rms:    1.8961
+loop:     78000, alpha:    0.0000, rms:    1.8961
+loop:     78400, alpha:    0.0000, rms:    1.8961
+loop:     78800, alpha:    0.0000, rms:    1.8961
+loop:     79200, alpha:    0.0000, rms:    1.8961
+loop:     79600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 9 times
+loop:     80000, alpha:    0.0000, rms:    1.8961
+loop:     80400, alpha:    0.0000, rms:    1.8961
+loop:     80800, alpha:    0.0000, rms:    1.8961
+loop:     81200, alpha:    0.0000, rms:    1.8961
+loop:     81600, alpha:    0.0000, rms:    1.8961
+loop:     82000, alpha:    0.0000, rms:    1.8961
+loop:     82400, alpha:    0.0000, rms:    1.8961
+loop:     82800, alpha:    0.0000, rms:    1.8961
+loop:     83200, alpha:    0.0000, rms:    1.8961
+loop:     83600, alpha:    0.0000, rms:    1.8961
+loop:     84000, alpha:    0.0000, rms:    1.8961
+loop:     84400, alpha:    0.0000, rms:    1.8961
+loop:     84800, alpha:    0.0000, rms:    1.8961
+loop:     85200, alpha:    0.0000, rms:    1.8961
+loop:     85600, alpha:    0.0000, rms:    1.8961
+loop:     86000, alpha:    0.0000, rms:    1.8961
+loop:     86400, alpha:    0.0000, rms:    1.8961
+loop:     86800, alpha:    0.0000, rms:    1.8961
+loop:     87200, alpha:    0.0000, rms:    1.8961
+loop:     87600, alpha:    0.0000, rms:    1.8961
+loop:     88000, alpha:    0.0000, rms:    1.8961
+loop:     88400, alpha:    0.0000, rms:    1.8961
+loop:     88800, alpha:    0.0000, rms:    1.8961
+loop:     89200, alpha:    0.0000, rms:    1.8961
+loop:     89600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 10 times
+loop:     90000, alpha:    0.0000, rms:    1.8961
+loop:     90400, alpha:    0.0000, rms:    1.8961
+loop:     90800, alpha:    0.0000, rms:    1.8961
+loop:     91200, alpha:    0.0000, rms:    1.8961
+loop:     91600, alpha:    0.0000, rms:    1.8961
+loop:     92000, alpha:    0.0000, rms:    1.8961
+loop:     92400, alpha:    0.0000, rms:    1.8961
+loop:     92800, alpha:    0.0000, rms:    1.8961
+loop:     93200, alpha:    0.0000, rms:    1.8961
+loop:     93600, alpha:    0.0000, rms:    1.8961
+loop:     94000, alpha:    0.0000, rms:    1.8961
+loop:     94400, alpha:    0.0000, rms:    1.8961
+loop:     94800, alpha:    0.0000, rms:    1.8961
+loop:     95200, alpha:    0.0000, rms:    1.8961
+loop:     95600, alpha:    0.0000, rms:    1.8961
+loop:     96000, alpha:    0.0000, rms:    1.8961
+loop:     96400, alpha:    0.0000, rms:    1.8961
+loop:     96800, alpha:    0.0000, rms:    1.8961
+loop:     97200, alpha:    0.0000, rms:    1.8961
+loop:     97600, alpha:    0.0000, rms:    1.8961
+loop:     98000, alpha:    0.0000, rms:    1.8961
+loop:     98400, alpha:    0.0000, rms:    1.8961
+loop:     98800, alpha:    0.0000, rms:    1.8961
+loop:     99200, alpha:    0.0000, rms:    1.8961
+loop:     99600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 11 times
+loop:    100000, alpha:    0.0000, rms:    1.8961
+loop:    100400, alpha:    0.0000, rms:    1.8961
+loop:    100800, alpha:    0.0000, rms:    1.8961
+loop:    101200, alpha:    0.0000, rms:    1.8961
+loop:    101600, alpha:    0.0000, rms:    1.8961
+loop:    102000, alpha:    0.0000, rms:    1.8961
+loop:    102400, alpha:    0.0000, rms:    1.8961
+loop:    102800, alpha:    0.0000, rms:    1.8961
+loop:    103200, alpha:    0.0000, rms:    1.8961
+loop:    103600, alpha:    0.0000, rms:    1.8961
+loop:    104000, alpha:    0.0000, rms:    1.8961
+loop:    104400, alpha:    0.0000, rms:    1.8961
+loop:    104800, alpha:    0.0000, rms:    1.8961
+loop:    105200, alpha:    0.0000, rms:    1.8961
+loop:    105600, alpha:    0.0000, rms:    1.8961
+loop:    106000, alpha:    0.0000, rms:    1.8961
+loop:    106400, alpha:    0.0000, rms:    1.8961
+loop:    106800, alpha:    0.0000, rms:    1.8961
+loop:    107200, alpha:    0.0000, rms:    1.8961
+loop:    107600, alpha:    0.0000, rms:    1.8961
+loop:    108000, alpha:    0.0000, rms:    1.8961
+loop:    108400, alpha:    0.0000, rms:    1.8961
+loop:    108800, alpha:    0.0000, rms:    1.8961
+loop:    109200, alpha:    0.0000, rms:    1.8961
+loop:    109600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 12 times
+loop:    110000, alpha:    0.0000, rms:    1.8961
+loop:    110400, alpha:    0.0000, rms:    1.8961
+loop:    110800, alpha:    0.0000, rms:    1.8961
+loop:    111200, alpha:    0.0000, rms:    1.8961
+loop:    111600, alpha:    0.0000, rms:    1.8961
+loop:    112000, alpha:    0.0000, rms:    1.8961
+loop:    112400, alpha:    0.0000, rms:    1.8961
+loop:    112800, alpha:    0.0000, rms:    1.8961
+loop:    113200, alpha:    0.0000, rms:    1.8961
+loop:    113600, alpha:    0.0000, rms:    1.8961
+loop:    114000, alpha:    0.0000, rms:    1.8961
+loop:    114400, alpha:    0.0000, rms:    1.8961
+loop:    114800, alpha:    0.0000, rms:    1.8961
+loop:    115200, alpha:    0.0000, rms:    1.8961
+loop:    115600, alpha:    0.0000, rms:    1.8961
+loop:    116000, alpha:    0.0000, rms:    1.8961
+loop:    116400, alpha:    0.0000, rms:    1.8961
+loop:    116800, alpha:    0.0000, rms:    1.8961
+loop:    117200, alpha:    0.0000, rms:    1.8961
+loop:    117600, alpha:    0.0000, rms:    1.8961
+loop:    118000, alpha:    0.0000, rms:    1.8961
+loop:    118400, alpha:    0.0000, rms:    1.8961
+loop:    118800, alpha:    0.0000, rms:    1.8961
+loop:    119200, alpha:    0.0000, rms:    1.8961
+loop:    119600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 13 times
+loop:    120000, alpha:    0.0000, rms:    1.8961
+loop:    120400, alpha:    0.0000, rms:    1.8961
+loop:    120800, alpha:    0.0000, rms:    1.8961
+loop:    121200, alpha:    0.0000, rms:    1.8961
+loop:    121600, alpha:    0.0000, rms:    1.8961
+loop:    122000, alpha:    0.0000, rms:    1.8961
+loop:    122400, alpha:    0.0000, rms:    1.8961
+loop:    122800, alpha:    0.0000, rms:    1.8961
+loop:    123200, alpha:    0.0000, rms:    1.8961
+loop:    123600, alpha:    0.0000, rms:    1.8961
+loop:    124000, alpha:    0.0000, rms:    1.8961
+loop:    124400, alpha:    0.0000, rms:    1.8961
+loop:    124800, alpha:    0.0000, rms:    1.8961
+loop:    125200, alpha:    0.0000, rms:    1.8961
+loop:    125600, alpha:    0.0000, rms:    1.8961
+loop:    126000, alpha:    0.0000, rms:    1.8961
+loop:    126400, alpha:    0.0000, rms:    1.8961
+loop:    126800, alpha:    0.0000, rms:    1.8961
+loop:    127200, alpha:    0.0000, rms:    1.8961
+loop:    127600, alpha:    0.0000, rms:    1.8961
+loop:    128000, alpha:    0.0000, rms:    1.8961
+loop:    128400, alpha:    0.0000, rms:    1.8961
+loop:    128800, alpha:    0.0000, rms:    1.8961
+loop:    129200, alpha:    0.0000, rms:    1.8961
+loop:    129600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 14 times
+loop:    130000, alpha:    0.0000, rms:    1.8961
+loop:    130400, alpha:    0.0000, rms:    1.8961
+loop:    130800, alpha:    0.0000, rms:    1.8961
+loop:    131200, alpha:    0.0000, rms:    1.8961
+loop:    131600, alpha:    0.0000, rms:    1.8961
+loop:    132000, alpha:    0.0000, rms:    1.8961
+loop:    132400, alpha:    0.0000, rms:    1.8961
+loop:    132800, alpha:    0.0000, rms:    1.8961
+loop:    133200, alpha:    0.0000, rms:    1.8961
+loop:    133600, alpha:    0.0000, rms:    1.8961
+loop:    134000, alpha:    0.0000, rms:    1.8961
+loop:    134400, alpha:    0.0000, rms:    1.8961
+loop:    134800, alpha:    0.0000, rms:    1.8961
+loop:    135200, alpha:    0.0000, rms:    1.8961
+loop:    135600, alpha:    0.0000, rms:    1.8961
+loop:    136000, alpha:    0.0000, rms:    1.8961
+loop:    136400, alpha:    0.0000, rms:    1.8961
+loop:    136800, alpha:    0.0000, rms:    1.8961
+loop:    137200, alpha:    0.0000, rms:    1.8961
+loop:    137600, alpha:    0.0000, rms:    1.8961
+loop:    138000, alpha:    0.0000, rms:    1.8961
+loop:    138400, alpha:    0.0000, rms:    1.8961
+loop:    138800, alpha:    0.0000, rms:    1.8961
+loop:    139200, alpha:    0.0000, rms:    1.8961
+loop:    139600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 15 times
+loop:    140000, alpha:    0.0000, rms:    1.8961
+loop:    140400, alpha:    0.0000, rms:    1.8961
+loop:    140800, alpha:    0.0000, rms:    1.8961
+loop:    141200, alpha:    0.0000, rms:    1.8961
+loop:    141600, alpha:    0.0000, rms:    1.8961
+loop:    142000, alpha:    0.0000, rms:    1.8961
+loop:    142400, alpha:    0.0000, rms:    1.8961
+loop:    142800, alpha:    0.0000, rms:    1.8961
+loop:    143200, alpha:    0.0000, rms:    1.8961
+loop:    143600, alpha:    0.0000, rms:    1.8961
+loop:    144000, alpha:    0.0000, rms:    1.8961
+loop:    144400, alpha:    0.0000, rms:    1.8961
+loop:    144800, alpha:    0.0000, rms:    1.8961
+loop:    145200, alpha:    0.0000, rms:    1.8961
+loop:    145600, alpha:    0.0000, rms:    1.8961
+loop:    146000, alpha:    0.0000, rms:    1.8961
+loop:    146400, alpha:    0.0000, rms:    1.8961
+loop:    146800, alpha:    0.0000, rms:    1.8961
+loop:    147200, alpha:    0.0000, rms:    1.8961
+loop:    147600, alpha:    0.0000, rms:    1.8961
+loop:    148000, alpha:    0.0000, rms:    1.8961
+loop:    148400, alpha:    0.0000, rms:    1.8961
+loop:    148800, alpha:    0.0000, rms:    1.8961
+loop:    149200, alpha:    0.0000, rms:    1.8961
+loop:    149600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 16 times
+loop:    150000, alpha:    0.0000, rms:    1.8961
+loop:    150400, alpha:    0.0000, rms:    1.8961
+loop:    150800, alpha:    0.0000, rms:    1.8961
+loop:    151200, alpha:    0.0000, rms:    1.8961
+loop:    151600, alpha:    0.0000, rms:    1.8961
+loop:    152000, alpha:    0.0000, rms:    1.8961
+loop:    152400, alpha:    0.0000, rms:    1.8961
+loop:    152800, alpha:    0.0000, rms:    1.8961
+loop:    153200, alpha:    0.0000, rms:    1.8961
+loop:    153600, alpha:    0.0000, rms:    1.8961
+loop:    154000, alpha:    0.0000, rms:    1.8961
+loop:    154400, alpha:    0.0000, rms:    1.8961
+loop:    154800, alpha:    0.0000, rms:    1.8961
+loop:    155200, alpha:    0.0000, rms:    1.8961
+loop:    155600, alpha:    0.0000, rms:    1.8961
+loop:    156000, alpha:    0.0000, rms:    1.8961
+loop:    156400, alpha:    0.0000, rms:    1.8961
+loop:    156800, alpha:    0.0000, rms:    1.8961
+loop:    157200, alpha:    0.0000, rms:    1.8961
+loop:    157600, alpha:    0.0000, rms:    1.8961
+loop:    158000, alpha:    0.0000, rms:    1.8961
+loop:    158400, alpha:    0.0000, rms:    1.8961
+loop:    158800, alpha:    0.0000, rms:    1.8961
+loop:    159200, alpha:    0.0000, rms:    1.8961
+loop:    159600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 17 times
+loop:    160000, alpha:    0.0000, rms:    1.8961
+loop:    160400, alpha:    0.0000, rms:    1.8961
+loop:    160800, alpha:    0.0000, rms:    1.8961
+loop:    161200, alpha:    0.0000, rms:    1.8961
+loop:    161600, alpha:    0.0000, rms:    1.8961
+loop:    162000, alpha:    0.0000, rms:    1.8961
+loop:    162400, alpha:    0.0000, rms:    1.8961
+loop:    162800, alpha:    0.0000, rms:    1.8961
+loop:    163200, alpha:    0.0000, rms:    1.8961
+loop:    163600, alpha:    0.0000, rms:    1.8961
+loop:    164000, alpha:    0.0000, rms:    1.8961
+loop:    164400, alpha:    0.0000, rms:    1.8961
+loop:    164800, alpha:    0.0000, rms:    1.8961
+loop:    165200, alpha:    0.0000, rms:    1.8961
+loop:    165600, alpha:    0.0000, rms:    1.8961
+loop:    166000, alpha:    0.0000, rms:    1.8961
+loop:    166400, alpha:    0.0000, rms:    1.8961
+loop:    166800, alpha:    0.0000, rms:    1.8961
+loop:    167200, alpha:    0.0000, rms:    1.8961
+loop:    167600, alpha:    0.0000, rms:    1.8961
+loop:    168000, alpha:    0.0000, rms:    1.8961
+loop:    168400, alpha:    0.0000, rms:    1.8961
+loop:    168800, alpha:    0.0000, rms:    1.8961
+loop:    169200, alpha:    0.0000, rms:    1.8961
+loop:    169600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 18 times
+loop:    170000, alpha:    0.0000, rms:    1.8961
+loop:    170400, alpha:    0.0000, rms:    1.8961
+loop:    170800, alpha:    0.0000, rms:    1.8961
+loop:    171200, alpha:    0.0000, rms:    1.8961
+loop:    171600, alpha:    0.0000, rms:    1.8961
+loop:    172000, alpha:    0.0000, rms:    1.8961
+loop:    172400, alpha:    0.0000, rms:    1.8961
+loop:    172800, alpha:    0.0000, rms:    1.8961
+loop:    173200, alpha:    0.0000, rms:    1.8961
+loop:    173600, alpha:    0.0000, rms:    1.8961
+loop:    174000, alpha:    0.0000, rms:    1.8961
+loop:    174400, alpha:    0.0000, rms:    1.8961
+loop:    174800, alpha:    0.0000, rms:    1.8961
+loop:    175200, alpha:    0.0000, rms:    1.8961
+loop:    175600, alpha:    0.0000, rms:    1.8961
+loop:    176000, alpha:    0.0000, rms:    1.8961
+loop:    176400, alpha:    0.0000, rms:    1.8961
+loop:    176800, alpha:    0.0000, rms:    1.8961
+loop:    177200, alpha:    0.0000, rms:    1.8961
+loop:    177600, alpha:    0.0000, rms:    1.8961
+loop:    178000, alpha:    0.0000, rms:    1.8961
+loop:    178400, alpha:    0.0000, rms:    1.8961
+loop:    178800, alpha:    0.0000, rms:    1.8961
+loop:    179200, alpha:    0.0000, rms:    1.8961
+loop:    179600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 19 times
+loop:    180000, alpha:    0.0000, rms:    1.8961
+loop:    180400, alpha:    0.0000, rms:    1.8961
+loop:    180800, alpha:    0.0000, rms:    1.8961
+loop:    181200, alpha:    0.0000, rms:    1.8961
+loop:    181600, alpha:    0.0000, rms:    1.8961
+loop:    182000, alpha:    0.0000, rms:    1.8961
+loop:    182400, alpha:    0.0000, rms:    1.8961
+loop:    182800, alpha:    0.0000, rms:    1.8961
+loop:    183200, alpha:    0.0000, rms:    1.8961
+loop:    183600, alpha:    0.0000, rms:    1.8961
+loop:    184000, alpha:    0.0000, rms:    1.8961
+loop:    184400, alpha:    0.0000, rms:    1.8961
+loop:    184800, alpha:    0.0000, rms:    1.8961
+loop:    185200, alpha:    0.0000, rms:    1.8961
+loop:    185600, alpha:    0.0000, rms:    1.8961
+loop:    186000, alpha:    0.0000, rms:    1.8961
+loop:    186400, alpha:    0.0000, rms:    1.8961
+loop:    186800, alpha:    0.0000, rms:    1.8961
+loop:    187200, alpha:    0.0000, rms:    1.8961
+loop:    187600, alpha:    0.0000, rms:    1.8961
+loop:    188000, alpha:    0.0000, rms:    1.8961
+loop:    188400, alpha:    0.0000, rms:    1.8961
+loop:    188800, alpha:    0.0000, rms:    1.8961
+loop:    189200, alpha:    0.0000, rms:    1.8961
+loop:    189600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 20 times
+loop:    190000, alpha:    0.0000, rms:    1.8961
+loop:    190400, alpha:    0.0000, rms:    1.8961
+loop:    190800, alpha:    0.0000, rms:    1.8961
+loop:    191200, alpha:    0.0000, rms:    1.8961
+loop:    191600, alpha:    0.0000, rms:    1.8961
+loop:    192000, alpha:    0.0000, rms:    1.8961
+loop:    192400, alpha:    0.0000, rms:    1.8961
+loop:    192800, alpha:    0.0000, rms:    1.8961
+loop:    193200, alpha:    0.0000, rms:    1.8961
+loop:    193600, alpha:    0.0000, rms:    1.8961
+loop:    194000, alpha:    0.0000, rms:    1.8961
+loop:    194400, alpha:    0.0000, rms:    1.8961
+loop:    194800, alpha:    0.0000, rms:    1.8961
+loop:    195200, alpha:    0.0000, rms:    1.8961
+loop:    195600, alpha:    0.0000, rms:    1.8961
+loop:    196000, alpha:    0.0000, rms:    1.8961
+loop:    196400, alpha:    0.0000, rms:    1.8961
+loop:    196800, alpha:    0.0000, rms:    1.8961
+loop:    197200, alpha:    0.0000, rms:    1.8961
+loop:    197600, alpha:    0.0000, rms:    1.8961
+loop:    198000, alpha:    0.0000, rms:    1.8961
+loop:    198400, alpha:    0.0000, rms:    1.8961
+loop:    198800, alpha:    0.0000, rms:    1.8961
+loop:    199200, alpha:    0.0000, rms:    1.8961
+loop:    199600, alpha:    0.0000, rms:    1.8961
+Have memorized arrays 21 times
+loop:    200000, alpha:    0.0000, rms:    1.8961
+Reached the maximum number of loops
+
+Done.
+loop:    200001, alpha:    0.0000, rms:    1.8961
+Total fabrication time:  217.2840 minutes
+filepath:
+ ./files/outputOMP/20190408192836_all.txt
+filepath:
+ ./files/outputOMP/20190408192836_extraction.txt
+Serial Computation time: 2903.0285 sec.
+OpenMP Computation time:  952.4360 sec.
