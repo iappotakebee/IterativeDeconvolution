@@ -1,0 +1,183 @@
+
+                                       
+    Iterative Deconvolution Started   
+***************************************
+
+The number of threads
+  # Total    :      18
+  # Thread   :      12
+  # Thread   :       7
+  # Thread   :      16
+  # Thread   :       8
+  # Thread   :       4
+  # Thread   :       6
+  # Thread   :      11
+  # Thread   :      17
+  # Thread   :       0
+  # Thread   :       9
+  # Thread   :      14
+  # Thread   :       2
+  # Thread   :      10
+  # Thread   :       5
+  # Thread   :       1
+  # Thread   :      15
+  # Thread   :      13
+  # Thread   :       3
+The number of entries
+  # Target   :    4001
+  # Unit     :    1561
+  # 1/2 Unit :     780
+  # All      :    7123
+Have memorized arrays 1 times
+Multiplied alpha by    0.9500
+loop:         2, alpha:   57.0000, rms:  384.8400
+Multiplied alpha by    0.9500
+loop:         5, alpha:   54.1500, rms:  308.8963
+Multiplied alpha by    0.9500
+loop:        12, alpha:   51.4425, rms:  205.3217
+loop:      1000, alpha:   51.4425, rms:    1.8296
+loop:      2000, alpha:   51.4425, rms:    1.2661
+loop:      3000, alpha:   51.4425, rms:    0.9827
+loop:      4000, alpha:   51.4425, rms:    0.8166
+loop:      5000, alpha:   51.4425, rms:    0.7104
+loop:      6000, alpha:   51.4425, rms:    0.6369
+loop:      7000, alpha:   51.4425, rms:    0.5830
+loop:      8000, alpha:   51.4425, rms:    0.5416
+loop:      9000, alpha:   51.4425, rms:    0.5085
+loop:     10000, alpha:   51.4425, rms:    0.4814
+loop:     11000, alpha:   51.4425, rms:    0.4585
+loop:     12000, alpha:   51.4425, rms:    0.4388
+loop:     13000, alpha:   51.4425, rms:    0.4215
+loop:     14000, alpha:   51.4425, rms:    0.4062
+loop:     15000, alpha:   51.4425, rms:    0.3924
+loop:     16000, alpha:   51.4425, rms:    0.3800
+loop:     17000, alpha:   51.4425, rms:    0.3686
+loop:     18000, alpha:   51.4425, rms:    0.3580
+loop:     19000, alpha:   51.4425, rms:    0.3483
+loop:     20000, alpha:   51.4425, rms:    0.3393
+loop:     21000, alpha:   51.4425, rms:    0.3308
+loop:     22000, alpha:   51.4425, rms:    0.3229
+loop:     23000, alpha:   51.4425, rms:    0.3155
+loop:     24000, alpha:   51.4425, rms:    0.3085
+loop:     25000, alpha:   51.4425, rms:    0.3019
+loop:     26000, alpha:   51.4425, rms:    0.2956
+loop:     27000, alpha:   51.4425, rms:    0.2897
+loop:     28000, alpha:   51.4425, rms:    0.2842
+loop:     29000, alpha:   51.4425, rms:    0.2789
+loop:     30000, alpha:   51.4425, rms:    0.2739
+loop:     31000, alpha:   51.4425, rms:    0.2692
+loop:     32000, alpha:   51.4425, rms:    0.2646
+loop:     33000, alpha:   51.4425, rms:    0.2604
+loop:     34000, alpha:   51.4425, rms:    0.2563
+loop:     35000, alpha:   51.4425, rms:    0.2524
+loop:     36000, alpha:   51.4425, rms:    0.2488
+loop:     37000, alpha:   51.4425, rms:    0.2453
+loop:     38000, alpha:   51.4425, rms:    0.2419
+loop:     39000, alpha:   51.4425, rms:    0.2387
+loop:     40000, alpha:   51.4425, rms:    0.2356
+loop:     41000, alpha:   51.4425, rms:    0.2326
+loop:     42000, alpha:   51.4425, rms:    0.2296
+loop:     43000, alpha:   51.4425, rms:    0.2268
+loop:     44000, alpha:   51.4425, rms:    0.2241
+loop:     45000, alpha:   51.4425, rms:    0.2215
+loop:     46000, alpha:   51.4425, rms:    0.2189
+loop:     47000, alpha:   51.4425, rms:    0.2164
+loop:     48000, alpha:   51.4425, rms:    0.2140
+loop:     49000, alpha:   51.4425, rms:    0.2117
+Have memorized arrays 2 times
+loop:     50000, alpha:   51.4425, rms:    0.2094
+loop:     51000, alpha:   51.4425, rms:    0.2072
+loop:     52000, alpha:   51.4425, rms:    0.2050
+loop:     53000, alpha:   51.4425, rms:    0.2029
+loop:     54000, alpha:   51.4425, rms:    0.2009
+loop:     55000, alpha:   51.4425, rms:    0.1989
+loop:     56000, alpha:   51.4425, rms:    0.1970
+loop:     57000, alpha:   51.4425, rms:    0.1951
+loop:     58000, alpha:   51.4425, rms:    0.1932
+loop:     59000, alpha:   51.4425, rms:    0.1914
+loop:     60000, alpha:   51.4425, rms:    0.1896
+loop:     61000, alpha:   51.4425, rms:    0.1879
+loop:     62000, alpha:   51.4425, rms:    0.1862
+loop:     63000, alpha:   51.4425, rms:    0.1846
+loop:     64000, alpha:   51.4425, rms:    0.1830
+loop:     65000, alpha:   51.4425, rms:    0.1814
+loop:     66000, alpha:   51.4425, rms:    0.1799
+loop:     67000, alpha:   51.4425, rms:    0.1784
+loop:     68000, alpha:   51.4425, rms:    0.1769
+loop:     69000, alpha:   51.4425, rms:    0.1754
+loop:     70000, alpha:   51.4425, rms:    0.1740
+loop:     71000, alpha:   51.4425, rms:    0.1727
+loop:     72000, alpha:   51.4425, rms:    0.1713
+loop:     73000, alpha:   51.4425, rms:    0.1700
+loop:     74000, alpha:   51.4425, rms:    0.1687
+loop:     75000, alpha:   51.4425, rms:    0.1674
+loop:     76000, alpha:   51.4425, rms:    0.1661
+loop:     77000, alpha:   51.4425, rms:    0.1649
+loop:     78000, alpha:   51.4425, rms:    0.1637
+loop:     79000, alpha:   51.4425, rms:    0.1625
+loop:     80000, alpha:   51.4425, rms:    0.1614
+loop:     81000, alpha:   51.4425, rms:    0.1602
+loop:     82000, alpha:   51.4425, rms:    0.1591
+loop:     83000, alpha:   51.4425, rms:    0.1580
+loop:     84000, alpha:   51.4425, rms:    0.1569
+loop:     85000, alpha:   51.4425, rms:    0.1559
+loop:     86000, alpha:   51.4425, rms:    0.1548
+loop:     87000, alpha:   51.4425, rms:    0.1538
+loop:     88000, alpha:   51.4425, rms:    0.1528
+loop:     89000, alpha:   51.4425, rms:    0.1518
+loop:     90000, alpha:   51.4425, rms:    0.1509
+loop:     91000, alpha:   51.4425, rms:    0.1499
+loop:     92000, alpha:   51.4425, rms:    0.1490
+loop:     93000, alpha:   51.4425, rms:    0.1481
+loop:     94000, alpha:   51.4425, rms:    0.1472
+loop:     95000, alpha:   51.4425, rms:    0.1463
+loop:     96000, alpha:   51.4425, rms:    0.1454
+loop:     97000, alpha:   51.4425, rms:    0.1445
+loop:     98000, alpha:   51.4425, rms:    0.1437
+loop:     99000, alpha:   51.4425, rms:    0.1429
+Have memorized arrays 3 times
+loop:    100000, alpha:   51.4425, rms:    0.1420
+loop:    101000, alpha:   51.4425, rms:    0.1412
+loop:    102000, alpha:   51.4425, rms:    0.1404
+loop:    103000, alpha:   51.4425, rms:    0.1397
+loop:    104000, alpha:   51.4425, rms:    0.1389
+loop:    105000, alpha:   51.4425, rms:    0.1381
+loop:    106000, alpha:   51.4425, rms:    0.1374
+loop:    107000, alpha:   51.4425, rms:    0.1367
+loop:    108000, alpha:   51.4425, rms:    0.1359
+loop:    109000, alpha:   51.4425, rms:    0.1352
+loop:    110000, alpha:   51.4425, rms:    0.1345
+loop:    111000, alpha:   51.4425, rms:    0.1338
+loop:    112000, alpha:   51.4425, rms:    0.1332
+loop:    113000, alpha:   51.4425, rms:    0.1325
+loop:    114000, alpha:   51.4425, rms:    0.1318
+loop:    115000, alpha:   51.4425, rms:    0.1312
+loop:    116000, alpha:   51.4425, rms:    0.1305
+loop:    117000, alpha:   51.4425, rms:    0.1299
+loop:    118000, alpha:   51.4425, rms:    0.1293
+loop:    119000, alpha:   51.4425, rms:    0.1287
+loop:    120000, alpha:   51.4425, rms:    0.1281
+loop:    121000, alpha:   51.4425, rms:    0.1275
+loop:    122000, alpha:   51.4425, rms:    0.1269
+loop:    123000, alpha:   51.4425, rms:    0.1263
+loop:    124000, alpha:   51.4425, rms:    0.1257
+loop:    125000, alpha:   51.4425, rms:    0.1252
+loop:    126000, alpha:   51.4425, rms:    0.1246
+loop:    127000, alpha:   51.4425, rms:    0.1241
+loop:    128000, alpha:   51.4425, rms:    0.1235
+loop:    129000, alpha:   51.4425, rms:    0.1230
+loop:    130000, alpha:   51.4425, rms:    0.1225
+loop:    131000, alpha:   51.4425, rms:    0.1220
+loop:    132000, alpha:   51.4425, rms:    0.1214
+loop:    133000, alpha:   51.4425, rms:    0.1209
+loop:    134000, alpha:   51.4425, rms:    0.1204
+loop:    135000, alpha:   51.4425, rms:    0.1200
+loop:    136000, alpha:   51.4425, rms:    0.1195
+loop:    137000, alpha:   51.4425, rms:    0.1190
+loop:    138000, alpha:   51.4425, rms:    0.1185
+loop:    139000, alpha:   51.4425, rms:    0.1180
+loop:    140000, alpha:   51.4425, rms:    0.1176
+loop:    141000, alpha:   51.4425, rms:    0.1171
+loop:    142000, alpha:   51.4425, rms:    0.1167
+loop:    143000, alpha:   51.4425, rms:    0.1162
+loop:    144000, a
