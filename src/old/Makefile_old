@@ -1,0 +1,8 @@
+all: SerialDeconvolution OMPDeconvolution OMPInitDeconvolution
+SerialDeconvolution: ProgramSerial.c
+	gcc -Wall -O3 ProgramSerial.c -o ../run/SerialDeconvolution
+OMPDeconvolution: ProgramOMP.c
+	gcc -Wall -O3 -fopenmp ProgramOMP.c -o ../run/OMPDeconvolution -lm
+OMPInitDeconvolution: ProgramOMP_init.c
+	gcc -Wall -O3 -fopenmp ProgramOMP_init.c -o ../run/OMPInitDeconvolution -lm  
+
