@@ -1,3 +1,184 @@
-/Volumes/2018AD_Mac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210402HFMFigureCorrection/05HFM3rdFigureCorrection500umWideMaskwithSupporter/20210408DifferentialProfilefromDS01_filtered.txt
-/Volumes/2018AD_Mac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210402HFMFigureCorrection/05HFM3rdFigureCorrection500umWideMaskwithSupporter/20210407SputterYield500umWideSupporter_filtered.txt
-n
+/Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306VFMSubstrateFigureCorrectionProfilefromDS_filtered.txt
+/Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306NiSputterYield500umWide_filtered.txt
+/Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306VFMSubstrate13_DwellTimeGuessbyFigure.txt
+
+printDecnvArray:
+-- mat       : 0x7ff6dae040a0
+-- row       : 1
+-- col       : 429
+-- ttl       : 429
+-- i_st      : 0
+-- j_st      : 0
+-- name      : target_org
+-- imppth    : /Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306VFMSubstrateFigureCorrectionProfilefromDS_filtered.txt
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/target_org.csv
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x7ff6dae042f0
+-- row       : 1
+-- col       : 255
+-- ttl       : 255
+-- i_st      : 0
+-- j_st      : 0
+-- name      : unit_org
+-- imppth    : /Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306NiSputterYield500umWide_filtered.txt
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/unit_org.csv
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : 939
+-- col       : 2
+-- ttl       : 1878
+-- i_st      : 0
+-- j_st      : 0
+-- name      : dwelltime_org
+-- imppth    : /Volumes/2021G-DRIVEMac/UTokyoGoogleDrive/01MimuraLab/03Experiments/20210306VFMFigureCorrection/01VFMSubstrate12_1stFigureCorrection500nmWide/20210306VFMSubstrate13_DwellTimeGuessbyFigure.txt
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/guess_dwelltime.csv
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x7ff6dae04310
+-- row       : 1
+-- col       : 429
+-- ttl       : 429
+-- i_st      : 0
+-- j_st      : 255
+-- name      : target
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/target.csv
+-- histpth   : ../files/outputOMP/20210615_180311/target_history.csv
+printDecnvArray:
+-- mat       : 0x7ff6dae04300
+-- row       : 1
+-- col       : 255
+-- ttl       : 255
+-- i_st      : 0
+-- j_st      : 0
+-- name      : unit
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/unit.csv
+-- histpth   : ../files/outputOMP/20210615_180311/unit_history.csv
+printDecnvArray:
+-- mat       : 0x7ff6dae04320
+-- row       : 1
+-- col       : 685
+-- ttl       : 685
+-- i_st      : 0
+-- j_st      : 127
+-- name      : dwelltime
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/dwelltime.csv
+-- histpth   : ../files/outputOMP/20210615_180311/dwelltime_history.csv
+printDecnvArray:
+-- mat       : 0x7ff6dae04330
+-- row       : 1
+-- col       : 939
+-- ttl       : 939
+-- i_st      : 0
+-- j_st      : 0
+-- name      : realshape
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/realshape.csv
+-- histpth   : ../files/outputOMP/20210615_180311/realshape_history.csv
+printDecnvArray:
+-- mat       : 0x7ff6dae04340
+-- row       : 1
+-- col       : 429
+-- ttl       : 429
+-- i_st      : 0
+-- j_st      : 255
+-- name      : error
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/errors.csv
+-- histpth   : ../files/outputOMP/20210615_180311/errors_history.csv
+printDecnvArray:
+-- mat       : 0x7ff6dae04350
+-- row       : 1
+-- col       : 683
+-- ttl       : 683
+-- i_st      : 0
+-- j_st      : 128
+-- name      : update
+-- imppth    : 
+-- tmpexppth : 
+-- exppth    : 
+-- histpth   : ../files/outputOMP/20210615_180311/update_history.csv
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : all
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/all.csv
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : part
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/20210615_180311/extraction.csv
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : data_part
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/outputOMP/
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : timestamp
+-- imppth    : 
+-- tmpexppth : 
+-- exppth    : 20210615_180311
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : log
+-- imppth    : ../files/tmp/log.txt
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/tmp/log.txt
+-- histpth   : 
+printDecnvArray:
+-- mat       : 0x0
+-- row       : -1
+-- col       : -1
+-- ttl       : -1
+-- i_st      : 0
+-- j_st      : 0
+-- name      : log_path
+-- imppth    : 
+-- tmpexppth : ../files/outputOMP/20210615_180311/loop
+-- exppth    : ../files/tmp/
+-- histpth   : 
