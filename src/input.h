@@ -48,7 +48,9 @@ extern int  initVectorToDblIdentity
 extern int  initVectorToIntZero(int ni, int *a);
 extern int  copyMatrix
    (int m, int n, double *dest, double *src);
- 
+extern int  trimMatrix
+   (int m_dst, int n_dst, double *dest, 
+    int i_st, int j_st, int m_src, int n_src, double *src);
 extern int convoluteMatMat
    (int m_dest, int n_dest, double *dest,
     int m_src, int n_src, double *src,

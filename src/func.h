@@ -126,12 +126,22 @@
 #define COL 1
 #define TTL 2
 /* options/flags */
-#define FLGNUM               5
+#define FLGNUM               6
 #define ADD_TIME             0
 #define READFILE_ON_CONSOLE  1
 #define READPARAM_ON_CONSOLE 2
 #define SILENT               3
 #define READ_AS_FILESHAPE    4
+#define EXTENDUPDATE         5
+#define COS2                 2
+#define EXP                  3
+#define MIX                  4
+/* parameters */
+#define PARAMNUM     4
+#define OFFSET_DWELL 0
+#define OFFSET_TGT   1
+#define MGNRATIO_ROW 2
+#define MGNRATIO_COL 3
 
 typedef struct decnv_arr{
   double **mat;
@@ -146,7 +156,8 @@ typedef struct decnv_arr{
   char tmpexppth[BUFF_SIZE];
   char histpth  [BUFF_SIZE];
 } decnv_arr;
-
+typedef double (*df_3dblarg)(double, double, double *);
+typedef int    (*if_3dblarg)(double *, double *, double *);
 
 extern int initDecnvArrays(decnv_arr *data, int *flgs);
 extern int terminateDecnvArrays(decnv_arr *data, int *flgs);
@@ -161,10 +172,25 @@ extern int scanFilePaths(decnv_arr *data);
 extern int initExpFilePaths(decnv_arr *data, int *flgs);
 extern int importFiles(decnv_arr *data, int *flgs);
 extern int initCalculationRange
-          (decnv_arr *data, int mgnratio_row, int mgnratio_col);
+          (decnv_arr *data, double *parameters, int *flgs);
 extern double  convertDecnvArray
           (decnv_arr *datum,int glbl_i, int glbl_j);
+extern int applyWindowFunction
+          (int m_dst, int n_dst, double **dest, 
+           int m_src, int n_src, double **src, char *mode);
+extern double  squareCos
+          (double k, double x, double *param);
+extern double  minusExp
+          (double inv_t_const, double x, double *param);
+extern double  squareCosMinusExp
+          (double arg1, double x, double *param);
 extern int exportFiles(decnv_arr *data, int *flgs);
+extern int initArgsSquareCos
+          (double *arg1_i, double *arg1_j, double *param);
+extern int initArgsMinusExp 
+          (double *arg1_i, double *arg1_j, double *param);
+extern int initArgsMix 
+          (double *arg1_i, double *arg1_j, double *param);
 // Initialize the number of data and all the arrays
 extern int scaleEventoOddMatrix
           (int m_dst, int n_dst, double **dest, 

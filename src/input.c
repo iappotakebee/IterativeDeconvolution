@@ -39,7 +39,7 @@ double **readSeparatedValueFiles
    (int *row, int *col, char *fpth, int flg_readasfile)
 {
 #ifdef _DEBUG_
-//  printf("readSeparatedValueFiles:\n");
+  printf("readSeparatedValueFiles:\n");
 #endif /* _DEBUG_ */
   FILE *fp;
   char buf[BUFF_SIZE], *line;
@@ -121,14 +121,14 @@ double **readSeparatedValueFiles
     tmp_col = tmp_col_init;
   }
 #ifdef _DEBUG_
-//  printf("-- read (%d x %d) items in\n %s\n", tmp_row,tmp_col, fpth);
+  printf("-- read (%d x %d) items in\n %s\n", tmp_row,tmp_col, fpth);
 #endif /* _DEBUG_ */
   if (flg_readasfile == VALID)
   {
     (*row) = tmp_row;
     (*col) = tmp_col;
 #ifdef _DEBUG_
-//    printf("-- modified the number of rows and columns.\n");
+    printf("-- modified the number of rows and columns.\n");
 #endif /* _DEBUG_ */
   }
   /* verify the data can be reshaped in the designated size */
@@ -142,18 +142,18 @@ double **readSeparatedValueFiles
       (*row) = 1;
     }
 #ifdef _DEBUG_
-//    printf("-- preparing for reading the data.\n"
-//           "    line : (%d) arrays\n"
-//           "    p_arr: (%d x %d) arrays\n",
-//        line_max, *row, *col
-//        );
+    printf("-- preparing for reading the data.\n"
+           "    line : (%d) arrays\n"
+           "    p_arr: (%d x %d) arrays\n",
+        line_max, *row, *col
+        );
 #endif /* _DEBUG_ */
     line = (char*) allocateVector(sizeof(char), line_max);
     p_arr = (double**) allocateMatrix(sizeof(double), (*row), (*col));
     cnt_row = 0;
     cnt_col = 0;
 #ifdef _DEBUG_
-//    printf("-- starting to scan each line.\n");
+    printf("-- starting to scan each line.\n");
 #endif /* _DEBUG_ */
     while ( fscanf(fp, "%s", line) != EOF)
     {
@@ -326,6 +326,41 @@ int copyMatrix(int m, int n, double *dest, double *src)
   for(i=0; i<n_tot; i++)
   {
     dest[i]=src[i];
+  }
+  return 0;
+}
+int  trimMatrix
+   (int m_dst, int n_dst, double *dest, 
+    int i_st, int j_st, int m_src, int n_src, double *src)
+{
+  int i, j;
+  printf("trimMatrix:\n");
+  if(i_st + m_dst -1 < m_src && j_st + n_dst -1 < n_src)
+  {
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none) \
+  private(i,j)\
+  shared(tot_dst,m_dst,n_dst,n_src,dest,src)
+#endif /* _SERIAL_CALCULATION */
+    for(i=0; i<m_dst; i++)
+    {
+      for(j=0; j<n_dst; j++)
+      {
+        dest[n_dst*i+j]=src[(i_st + i)*n_src + (j_st + j)];
+      }
+    }
+  }
+  else
+  {
+    printf("-- invalid matrix size.\n");
+    printf(
+        "-- dst: (%5d x %5d)\n"\
+        "-- src: (%5d x %5d)\n"\
+        "-- st : (%5d , %5d)\n",
+        m_dst, n_dst,
+        m_src, n_src,
+        i_st , j_st  
+        );
   }
   return 0;
 }

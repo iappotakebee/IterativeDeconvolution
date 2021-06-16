@@ -6,33 +6,36 @@ int main (int argc, char *argv[])
   /**************************************************************
     Parameters to adjust deconvolution performance
   **************************************************************/
-  double       alpha     = 1000;
-  const double ls_alpha  = 0.95;
-  //const double mr_alpha  = 1.05;
-  const double lim_alpha = 0.5E-6;
-  double       threshold = 0.01;
-  //const double offset_time = 30.0; // in ms
-  //const double offset_hgt  = 20.0; 
-  const double offset_time = 0.0; // in ms
-  const double offset_hgt  = 00.0; 
-  int mgnratio_row=1, mgnratio_col=1;
+  double alpha      = 1000.0,
+         threshold  = 0.01;
+  int    n_loopmax  = 200000, 
+         n_looprec  = 50000, 
+         n_loopdisp = 2000;
+  double parameters[PARAMNUM] = {
+    01.0, /* offset_dwell in ms */
+    70.0,  /* offset_tgt in nm   */
+    5.0,  /* mgnratio_row (int) */
+    5.0   /* mgnratio_col (int) */
+  };
   /**************************************************************
     Some useful arguments (change them where necessary)
   **************************************************************/
   int  flgs[FLGNUM] = {
-    VALID, /* addtime */
-    VALID, /* readfileonconsole */
-    VALID, /* readparameteronconsole */
-    VALID, /* silent */
-    VALID, /* readasfileshape */
+    VALID,    /* addtime */
+    VALID,    /* readfileonconsole */
+    VALID,    /* readparameteronconsole */
+    VALID,    /* silent */
+    VALID,    /* readasfileshape */
+    MIX       /* extendupdate      */
   };
-  decnv_arr  data[IDX_NUM];
-  int        i,j,cnt, cnt_rec, nthreads,
-             gap_tr_i, gap_tr_j,gap_ud_i,gap_ud_j,
-             n_loopmax = 200000, n_looprec = 10000, n_loopdisp = 2000;
-  double     tmp, rms_bef = 10E7, rms_aft = 10E7,
-             figerr_max = 0.0, figerr_min = 10E7,
-             st, en, st_omp=-1, en_omp=-2,  init_st, init_en;
+  decnv_arr    data[IDX_NUM];
+  int          i,j,cnt, cnt_rec, nthreads,
+               gap_tr_i, gap_tr_j,gap_ud_i,gap_ud_j;
+  double       tmp, rms_bef = 10E7, rms_aft = 10E7,
+               figerr_max = 0.0, figerr_min = 10E7,
+               st, en, st_omp=-1, en_omp=-2, init_st, init_en;
+  const double ls_alpha  = 0.95,
+               lim_alpha = 0.5E-6;
   /**************************************************************
     Initialize the filename, the arrays and the parameters
   **************************************************************/
@@ -43,8 +46,8 @@ int main (int argc, char *argv[])
   init_st = GetCPUTime();
   printf("alpha       : %lf\n",alpha      );
   printf("threshold   : %lf\n",threshold  );
-  printf("offset_time : %lf\n",offset_time); // in ms
-  printf("offset_hgt  : %lf\n",offset_hgt ); 
+  printf("offset_time : %lf\n",parameters[OFFSET_DWELL]); // in ms
+  printf("offset_hgt  : %lf\n",parameters[OFFSET_TGT  ]); 
   // initialize filenames
   if ( 
       (initDecnvArrays(data, flgs) != VALID)  ||
@@ -60,7 +63,7 @@ int main (int argc, char *argv[])
     printf("...initialized the data.\n");
   }
   importFiles(data, flgs);
-  initCalculationRange(data, mgnratio_row, mgnratio_col);
+  initCalculationRange(data, parameters, flgs);
   printDecnvArray(data, IDX_TGTORG  );
   printDecnvArray(data, IDX_UNITORG );
   printDecnvArray(data, IDX_DWELLORG);
@@ -189,7 +192,7 @@ int main (int argc, char *argv[])
 #ifdef _OPENMP
 #pragma omp parallel for default(none)\
       private(i,j, tmp)\
-      shared(alpha,offset_time,data,gap_ud_i,gap_ud_j)
+      shared(alpha,parameters,data,gap_ud_i,gap_ud_j)
 #endif /* _OPENMP */
       for (i=0; i<data[IDX_UPDATE].row; i++)
       {
@@ -199,10 +202,10 @@ int main (int argc, char *argv[])
             data[IDX_DWELL].mat[gap_ud_i+i][gap_ud_j+j] +
             (alpha*data[IDX_UPDATE].mat[i][j]);
           /* limit the minimum dwell time */
-          if (tmp < offset_time)
+          if (tmp < parameters[OFFSET_DWELL])
           {
             data[IDX_DWELL].mat[gap_ud_i+i][gap_ud_j+j] = 
-              offset_time;
+              parameters[OFFSET_DWELL];
           }
           else
           {

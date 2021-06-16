@@ -19,6 +19,7 @@ HEADERS =\
 	input.h\
 	func.h \
 
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
@@ -28,6 +29,12 @@ $(OBJS): $(HEADERS)
 
 clean:
 	rm -f *.o $(TARGET) *~ *.log
+
+
+OMPInitDeconvolutionOld: ProgramOMP_init.c
+	gcc -Wall -O3 -fopenmp ProgramOMP_init.c -o ../run/OMPInitDeconvolutionOld -lm  
+
+
 
 #test:
 #	$(CC) -lm -lblas -llapack -o a.out test.c input.c 

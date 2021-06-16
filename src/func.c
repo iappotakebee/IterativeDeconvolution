@@ -453,18 +453,52 @@ int  initExpFilePaths(decnv_arr *data, int *flgs)
 }
 int importFiles(decnv_arr *data, int *flgs)
 {
-  data[IDX_TGTORG].mat = 
-    readSeparatedValueFiles(&data[IDX_TGTORG].row, 
-        &data[IDX_TGTORG].col, data[IDX_TGTORG].imppth,   
-        flgs[READ_AS_FILESHAPE]);
-  data[IDX_UNITORG].mat = 
-    readSeparatedValueFiles(&data[IDX_UNITORG].row, 
-        &data[IDX_UNITORG].col, data[IDX_UNITORG].imppth,   
-        flgs[READ_AS_FILESHAPE]);
-  data[IDX_DWELLORG].mat = 
-    readSeparatedValueFiles(&data[IDX_DWELLORG].row, 
-        &data[IDX_DWELLORG].col, data[IDX_DWELLORG].imppth,   
-        flgs[READ_AS_FILESHAPE]);
+  printf("importFiles:\n");
+  if (
+      (
+       data[IDX_TGTORG].mat = 
+       readSeparatedValueFiles(&data[IDX_TGTORG].row, 
+         &data[IDX_TGTORG].col, data[IDX_TGTORG].imppth,   
+         flgs[READ_AS_FILESHAPE])
+      )==NULL
+     )
+  {
+    printf("-- invalid target file.\n");
+  }
+  else
+  {
+    printf("-- read the target file.\n");
+  }
+  if (
+      (
+       data[IDX_UNITORG].mat = 
+       readSeparatedValueFiles(&data[IDX_UNITORG].row, 
+         &data[IDX_UNITORG].col, data[IDX_UNITORG].imppth,   
+         flgs[READ_AS_FILESHAPE])
+      )==NULL
+     )
+  {
+    printf("-- invalid unit file.\n");
+  }
+  else
+  {
+    printf("-- read the unit file.\n");
+  }
+  if (
+      (
+       data[IDX_DWELLORG].mat = 
+       readSeparatedValueFiles(&data[IDX_DWELLORG].row, 
+         &data[IDX_DWELLORG].col, data[IDX_DWELLORG].imppth,   
+         flgs[READ_AS_FILESHAPE])
+      )==NULL
+     )
+  {
+    printf("-- invalid dwell time file.\n");
+  }
+  else
+  {
+    printf("-- read the dwell time file.\n");
+  }
   data[IDX_TGTORG].ttl = 
     data[IDX_TGTORG].row * data[IDX_TGTORG].col;
   data[IDX_UNITORG].ttl = 
@@ -472,7 +506,6 @@ int importFiles(decnv_arr *data, int *flgs)
   data[IDX_DWELLORG].ttl = 
     data[IDX_DWELLORG].row * data[IDX_DWELLORG].col;
   return 0;
-
 }
 int exportFiles(decnv_arr *data, int *flgs)
 {
@@ -523,11 +556,16 @@ int initImpMatrixShape(int (*numelem)[MATINFO_NUM], int *flgs)
   return 0;
 }
 int initCalculationRange
-   (decnv_arr *data, int mgnratio_row, int mgnratio_col) 
+   (decnv_arr *data, double *parameters, int *flgs) 
 {
+  int i, j, tmp_i, tmp_j,
+      mgnratio_row=(int)parameters[MGNRATIO_ROW], 
+      mgnratio_col=(int)parameters[MGNRATIO_COL];
+  double offset_hgt = parameters[OFFSET_TGT];
+  char mode[] = "mode";
   printf("\ninitCalculationRange:\n");
   /* calculate the representatives of the unit mat*/
-  printf("-- initializing the unit mat.\n");
+  printf("-- transforming the unit mat.\n");
   data[IDX_UNIT].row = 
     data[IDX_UNITORG].row+data[IDX_UNITORG].row%2-1;
   data[IDX_UNIT].col = 
@@ -545,29 +583,118 @@ int initCalculationRange
   {
     printf("-- unable to shrink the unit matrix.\n");
   }
-  /* calculate the representatives of the target mat*/
+  /* calculate the input target mat*/
+  if(data[IDX_UNIT].row != 1 && data[IDX_TGTORG].row != 1)
+    data[IDX_TGTORG].i_st= data[IDX_UNIT].row*mgnratio_row;
+  data[IDX_TGTORG].j_st  = data[IDX_UNIT].col*mgnratio_col;
+  /* calculate the range of the real shape mat*/
+  printf("-- initializing the real shape mat.\n");
+  if(data[IDX_UNITORG].row == 1 && data[IDX_TGTORG].row == 1)
+  {
+    /* 1D deconvolution */
+    data[IDX_REAL].row = data[IDX_TGTORG].row;
+    data[IDX_REAL].col = 
+      data[IDX_TGTORG].col + 
+      data[IDX_UNIT].col * mgnratio_col * 2; 
+  }
+  else
+  {
+    /* 2D deconvolution */
+    data[IDX_REAL].row = 
+      data[IDX_TGTORG].row + 
+      data[IDX_UNIT].row * mgnratio_row * 2;
+    data[IDX_REAL].col = 
+      data[IDX_TGTORG].col + 
+      data[IDX_UNIT].col * mgnratio_col * 2;
+  }
+  data[IDX_REAL].ttl = data[IDX_REAL].row * data[IDX_REAL].col;
+  data[IDX_REAL].mat = 
+    (double**) allocateMatrix
+    (sizeof(double), data[IDX_REAL].row, data[IDX_REAL].col);
+  initVectorToDblZero
+    (data[IDX_REAL].ttl, data[IDX_REAL].mat[0]);
+  /* prepare the target mat*/
   printf("-- initializing the target mat.\n");
-  data[IDX_TGT].row = data[IDX_TGTORG].row;
-  data[IDX_TGT].col = data[IDX_TGTORG].col;
+  if (flgs[EXTENDUPDATE] == INVALID)
+  {
+    data[IDX_TGT].row = data[IDX_TGTORG].row;
+    data[IDX_TGT].col = data[IDX_TGTORG].col;
+    data[IDX_TGT].i_st= data[IDX_TGTORG].i_st;
+    data[IDX_TGT].j_st= data[IDX_TGTORG].j_st;
+  }
+  else
+  {
+    printf("-- extrapolate the target.\n");
+    data[IDX_TGT].row = 
+      data[IDX_REAL].row - 2*(data[IDX_UNIT].row -1);
+    data[IDX_TGT].col = 
+      data[IDX_REAL].col - 2*(data[IDX_UNIT].col -1);
+    data[IDX_TGT].i_st= data[IDX_UNIT].row-1;
+    data[IDX_TGT].j_st= data[IDX_UNIT].col-1;
+  }
   data[IDX_TGT].ttl = data[IDX_TGT].row * data[IDX_TGT].col;
-  if(data[IDX_UNIT].row != 1 && data[IDX_TGT].row != 1)
-    data[IDX_TGT].i_st= data[IDX_UNIT].row*mgnratio_row;
-  data[IDX_TGT].j_st= data[IDX_UNIT].col*mgnratio_col;
   data[IDX_TGT].mat = 
     (double**) allocateMatrix
     (sizeof(double), data[IDX_TGT].row, data[IDX_TGT].col );
-  copyMatrix(
-      data[IDX_TGT].row, data[IDX_TGT].col, 
-      data[IDX_TGT].mat[0], 
-      data[IDX_TGTORG].mat[0]);
+  //copyMatrix(
+  //    data[IDX_TGT].row, data[IDX_TGT].col, 
+  //    data[IDX_TGT].mat[0], 
+  //    data[IDX_TGTORG].mat[0]);
+  tmp_i = (int)(0.5*(data[IDX_TGT].row-data[IDX_TGTORG].row));
+  tmp_j = (int)(0.5*(data[IDX_TGT].col-data[IDX_TGTORG].col));
+  if (flgs[EXTENDUPDATE] != INVALID)
+  {
+    if (flgs[EXTENDUPDATE] == COS2)
+    {
+      strcpy(mode, "cos2");
+    }
+    else if (flgs[EXTENDUPDATE] == EXP)
+    {
+      strcpy(mode, "exp");
+    }
+    else if (flgs[EXTENDUPDATE] == MIX)
+    {
+      strcpy(mode, "mix");
+    }
+    printf("-- extrapolate the target with %s\n", mode);
+    if (applyWindowFunction(
+          data[IDX_TGT].row, data[IDX_TGT].col, 
+          data[IDX_TGT].mat,
+          data[IDX_TGTORG].row, data[IDX_TGTORG].col, 
+          data[IDX_TGTORG].mat,
+          mode)!=VALID)
+      printf("-- unable to extrapolate the target\n");
+  }
+#ifndef _SERIAL_CALCULATION
+#pragma omp parallel for default(none) \
+  private(i)\
+  shared(data, tmp_i, tmp_j)
+#endif /* _SERIAL_CALCULATION */
+  for (i=0; i<data[IDX_TGTORG].row; i++)
+  {
+    for (j=0; j<data[IDX_TGTORG].col; j++)
+    {
+      data[IDX_TGT].mat[tmp_i + i][tmp_j + j] 
+        = data[IDX_TGTORG].mat[i][j];
+    }
+  }
+#ifndef _SERIAL_CALCULATION
+#pragma omp parallel for default(none) \
+  private(i)\
+  shared(data, offset_hgt)
+#endif /* _SERIAL_CALCULATION */
+  for (i=0; i<data[IDX_TGT].ttl; i++)
+  {
+    data[IDX_TGT].mat[0][i] += offset_hgt;
+  }
   /* calculate the representatives of the dwelltime mat*/
-  printf("-- initializing the dwell time mat.\n");
-  if(data[IDX_UNIT].row == 1 && data[IDX_TGT].row == 1)
+  printf("-- transforming the dwell time mat.\n");
+  if(data[IDX_UNITORG].row == 1 && data[IDX_TGTORG].row == 1)
   {
     /* 1D deconvolution */
-    data[IDX_DWELL].row = data[IDX_TGT].row;
+    data[IDX_DWELL].row = data[IDX_TGTORG].row;
     data[IDX_DWELL].col = (int)(
-      data[IDX_TGT].col 
+      data[IDX_TGTORG].col 
       + data[IDX_UNIT].col * (mgnratio_col-1) * 2
       + (data[IDX_UNIT].col + 1));
     data[IDX_DWELL].j_st = (int)(0.5*(data[IDX_UNIT].col -1));
@@ -576,11 +703,11 @@ int initCalculationRange
   {
     /* 2D deconvolution */
     data[IDX_DWELL].row = (int)(
-      data[IDX_TGT].row 
+      data[IDX_TGTORG].row 
       + data[IDX_UNIT].row * (mgnratio_row-1) * 2
       + 0.5* (data[IDX_UNIT].row + 1));
     data[IDX_DWELL].col = (int)(
-      data[IDX_TGT].col 
+      data[IDX_TGTORG].col 
       + data[IDX_UNIT].col * (mgnratio_col-1) * 2
       + 0.5* (data[IDX_UNIT].col + 1));
     data[IDX_DWELL].i_st = (int)(0.5*(data[IDX_UNIT].row -1));
@@ -591,45 +718,62 @@ int initCalculationRange
   data[IDX_DWELL].mat = 
     (double**) allocateMatrix
     (sizeof(double), data[IDX_DWELL].row, data[IDX_DWELL].col );
-  initVectorToDblZero
-    (data[IDX_DWELL].ttl, data[IDX_DWELL].mat[0]);
   if (data[IDX_DWELLORG].mat != NULL)
   {
-    if( scaleEventoOddMatrix(
-        data[IDX_DWELL].row, data[IDX_DWELL].col, 
-        data[IDX_DWELL].mat,
-        data[IDX_DWELLORG].row, data[IDX_DWELLORG].col, 
-        data[IDX_DWELLORG].mat
-        ) == INVALID)
+    //if( scaleEventoOddMatrix(
+    //    data[IDX_DWELL].row, data[IDX_DWELL].col, 
+    //    data[IDX_DWELL].mat,
+    //    data[IDX_DWELLORG].row, data[IDX_DWELLORG].col, 
+    //    data[IDX_DWELLORG].mat
+    //    ) == INVALID)
+    //{
+    //  printf("-- unable to shrink the dwelltime matrix.\n");
+    //  printf("-- initialized the dwell time matrix with 0.\n");
+    //}
+    if (data[IDX_DWELL].row == data[IDX_DWELLORG].row &&
+        data[IDX_DWELL].col == data[IDX_DWELLORG].col
+       )
     {
-      printf("-- unable to shrink the dwelltime matrix.\n");
-      printf("-- initialized the dwell time matrix with 0.\n");
+      data[IDX_DWELL].i_st = data[IDX_DWELLORG].i_st;
+      data[IDX_DWELL].j_st = data[IDX_DWELLORG].j_st;
+      if(copyMatrix(
+            data[IDX_DWELL].row, data[IDX_DWELL].col, 
+            data[IDX_DWELL].mat[0], 
+            data[IDX_DWELLORG].mat[0])
+          != VALID
+        )  
+        printf("-- unable to copy the dwelltime matrix.\n"\
+          "-- initialized the dwell time matrix with %lf.\n",
+          parameters[OFFSET_DWELL]);
+    }
+    else if (data[IDX_REAL].row == data[IDX_DWELLORG].row &&
+        data[IDX_REAL].col == data[IDX_DWELLORG].col
+        )
+    {
+      if(trimMatrix(
+            data[IDX_DWELL].row, data[IDX_DWELL].col, 
+            data[IDX_DWELL].mat[0], 
+            data[IDX_DWELL].i_st, data[IDX_DWELL].j_st, 
+            data[IDX_DWELLORG].row, data[IDX_DWELLORG].col, 
+            data[IDX_DWELLORG].mat[0])
+          != VALID
+        )  
+        printf("-- unable to transform the dwelltime matrix.\n"\
+          "-- initialized the dwell time matrix with %lf.\n",
+          parameters[OFFSET_DWELL]);
+    }
+    else
+    {
+      printf("-- unable to assign the input dwelltime.\n"\
+          "-- initialized the dwell time matrix with %lf.\n",
+          parameters[OFFSET_DWELL]);
     }
   }
-  /* calculate the range of the real shape mat*/
-  printf("-- initializing the real shape mat.\n");
-  if(data[IDX_UNIT].row == 1 && data[IDX_TGT].row == 1)
+  for (i=0;i<data[IDX_DWELL].ttl; i++)
   {
-    /* 1D deconvolution */
-    data[IDX_REAL].row = data[IDX_TGT].row;
-    data[IDX_REAL].col = 
-      data[IDX_TGT].col + 
-      data[IDX_UNIT].col * mgnratio_col * 2; 
+    if(data[IDX_DWELL].mat[0][i] < parameters[OFFSET_DWELL])
+      data[IDX_DWELL].mat[0][i] = parameters[OFFSET_DWELL];
   }
-  else
-  {
-    /* 2D deconvolution */
-    data[IDX_REAL].row = 
-      data[IDX_TGT].row + data[IDX_UNIT].row * mgnratio_row * 2;
-    data[IDX_REAL].col = 
-      data[IDX_TGT].col + data[IDX_UNIT].col * mgnratio_col * 2;
-  }
-  data[IDX_REAL].ttl = data[IDX_REAL].row * data[IDX_REAL].col;
-  data[IDX_REAL].mat = 
-    (double**) allocateMatrix
-    (sizeof(double), data[IDX_REAL].row, data[IDX_REAL].col);
-  initVectorToDblZero
-    (data[IDX_REAL].ttl, data[IDX_REAL].mat[0]);
   /* calculate the range of the error mat */
   printf("-- initializing the error mat.\n");
   data[IDX_ERR].row = data[IDX_TGT].row;
@@ -644,7 +788,7 @@ int initCalculationRange
     (data[IDX_ERR].ttl, data[IDX_ERR].mat[0]);
   /* calculate the range of the update mat*/
   printf("-- initializing the update mat.\n");
-  if(data[IDX_UNIT].row == 1 && data[IDX_TGT].row == 1)
+  if(data[IDX_UNITORG].row == 1 && data[IDX_TGTORG].row == 1)
   {
     /* 1D deconvolution */
     data[IDX_UPDATE].row = data[IDX_ERR].row;
@@ -694,9 +838,247 @@ double convertDecnvArray
     return 0.0;
   }
 }
+int applyWindowFunction
+   (int m_dst, int n_dst, double **dest, 
+    int m_src, int n_src, double **src, char *mode)
+{ 
+  printf("applyWindowFunction:\n");
+  int i,j,i_st,i_en,j_st,j_en,
+      flg_work=VALID,
+      m_gap=m_dst-m_src,n_gap=n_dst-n_src;
+  double a,b, arg1_i,arg1_j,param[5];
+  df_3dblarg windowfunc=squareCosMinusExp;
+  if_3dblarg argfunc   =initArgsMix;
+  if (
+      m_gap % 2 != 0 || 
+      n_gap % 2 != 0 ||
+      m_gap < 0 ||
+      n_gap < 0 ||
+      n_src < 3 
+     )
+  {
+    printf("-- invalid matrix size.\n"\
+        "-- gap: (%d x %d)\n"\
+        "-- dst: (%d x %d)\n"\
+        "-- src: (%d x %d)\n",\
+        m_gap,n_gap,
+        m_dst,n_dst,
+        m_src,n_src
+        );
+    flg_work = INVALID;
+  }
+  else
+  {
+    i_st = (int)(0.5 * m_gap);
+    j_st = (int)(0.5 * n_gap);
+    i_en = i_st + m_src;
+    j_en = j_st + n_src;
+    if(strcmp(mode, "cos2")==VALID)
+    {
+      printf("-- extrapolate matrix with cos^2.\n");
+      param[2]=i_st;
+      param[3]=j_st;
+      windowfunc = squareCos;
+      argfunc    = initArgsSquareCos;
+    }
+    else if(strcmp(mode, "exp")==VALID)
+    {
+      printf("-- extrapolate matrix with exp.\n");
+      windowfunc = minusExp;
+      argfunc    = initArgsMinusExp;
+    }
+    else if(strcmp(mode, "mix")==VALID)
+    {
+      printf("-- extrapolate matrix with cos^2 and exp.\n");
+      windowfunc = squareCosMinusExp;
+      argfunc    = initArgsMix;
+    }
+    else
+    {
+      printf("-- invalid mode selection.\n");
+    }
+    /* extrapolate values in rows */
+    if (n_src > 3)
+    {
+      for(i=i_st;i<i_en;i++)
+      {
+        a = 0.5*
+          (0.5 * (src[i-i_st][2]-src[i-i_st][0])+
+           src[i-i_st][1]-src[i-i_st][0]);
+        b = src[i-i_st][0];
+        param[0]=a;
+        param[1]=b;
+        param[4]=-1;
+        argfunc(&arg1_i, &arg1_j, param);
+        for(j=0;j<j_st;j++)
+        {
+          dest[i][j] = windowfunc(arg1_j, j-j_st, param);
+        }
+        a = 0.5*
+          (0.5 * (src[i-i_st][n_src-1]-src[i-i_st][n_src-3])+
+           src[i-i_st][n_src-1]-src[i-i_st][n_src-2]);
+        b = src[i-i_st][n_src-1];
+        param[0]=a;
+        param[1]=b;
+        param[4]=1;
+        argfunc(&arg1_i, &arg1_j, param);
+        for(j=j_en;j<n_dst;j++)
+        {
+          dest[i][j] = windowfunc(arg1_j, j-j_en, param);
+        }
+      }
+    }
+    /* extrapolate values in columns */
+    if (m_src > 3)
+    {
+      for(j=j_st;j<j_en;j++)
+      {
+        a = 0.5*
+          (0.5 * (src[2][j-j_st]-src[0][j-j_st])+
+           src[1][j-j_st]-src[0][j-j_st]);
+        b = src[0][j-j_st];
+        param[0]=a;
+        param[1]=b;
+        param[4]=-1;
+        argfunc(&arg1_i, &arg1_j, param);
+        for(i=0;i<i_st;i++)
+        {
+          dest[i][j] = windowfunc(arg1_i, i-i_st, param);
+        }
+        a = 0.5*
+          (0.5 * (src[m_src-1][j-j_st]-src[m_src-3][j-j_st])+
+           src[m_src-1][j-j_st]-src[m_src-2][j-j_st]);
+        b = src[m_src-1][j-j_st];
+        param[0]=a;
+        param[1]=b;
+        param[4]=1;
+        argfunc(&arg1_i, &arg1_j, param);
+        for(i=i_en;i<m_dst;i++)
+        {
+          dest[i][j] = windowfunc(arg1_i, i-i_en, param);
+        }
+      }
+    }
+    /* extrapolate values in the corners */
+    for(i=0; i<i_st; i++)
+    {
+      for(j=0; j<j_st; j++)
+      {
+        dest[i][j] =
+          (dest[i_st][j] * (j_st-j) + 
+           dest[i][j_st] * (i_st-i)) /
+          (i_st+j_st-i-j);
+      }
+      for(j=j_en; j<n_dst; j++)
+      {
+        dest[i][j] =
+          (dest[i_st][j] * (j-j_en) + 
+           dest[i][j_en] * (i_st-i)) /
+          (i_st-i+j-j_en);
+      }
+    }
+    for(i=i_en; i<m_dst; i++)
+    {
+      for(j=0; j<j_st; j++)
+      {
+        dest[i][j] =
+          (dest[i_en][j] * (j_st-j) + 
+           dest[i][j_st] * (i-i_en)) /
+          (j_st-j+i-i_en);
+      }
+      for(j=j_en; j<n_dst; j++)
+      {
+        dest[i][j] =
+          (dest[i_en][j] * (j-j_en) + 
+           dest[i][j_en] * (i-i_en)) /
+          (i+j-i_en-j_en);
+      }
+    }
+  }
+  return flg_work;
+}
+double squareCos(double k, double x, double *param)
+{
+  return cos(k*x)*cos(k*x) * (param[0]*x + param[1]);
+}
+double minusExp(double inv_t_const, double x, double *param)
+{
+  return param[1]* exp(x*inv_t_const);
+}
+double  squareCosMinusExp
+          (double arg1, double x, double *param)
+{
+  if(param[0]*x > 0)
+  {
+    return squareCos(arg1,x,param);
+  }
+  else if(param[0]*x <= 0)
+  {
+    return minusExp(arg1,x,param);
+  }
+  else
+  {
+    return 0;
+  }
+}
+int initArgsSquareCos
+(double *arg1_i, double *arg1_j, double *param)
+{
+  if(param[2] != 0.0)
+  {
+    *arg1_i = 0.5*M_PI/param[2]; /* k_i */
+  }
+  else
+  {
+    *arg1_i =0.0; 
+  }
+  if(param[3] != 0.0)
+  {
+    *arg1_j = 0.5*M_PI/param[3]; /* k_j */
+  }
+  else
+  {
+    *arg1_j =0.0; 
+  }
+  return 0;
+}
+  int initArgsMinusExp 
+(double *arg1_i, double *arg1_j, double *param)
+{
+  if(param[1] != 0.0)
+  {
+    *arg1_i = param[0]/param[1]; 
+  }
+  else
+  {
+    *arg1_i = 0.0;
+  }
+  if(param[1] != 0.0)
+  {
+    *arg1_j = param[0]/param[1]; 
+  }
+  else
+  {
+    *arg1_j = 0.0;
+  }
+  return 0;
+}
+  int initArgsMix 
+(double *arg1_i, double *arg1_j, double *param)
+{
+  if(param[0]*param[4]  > 0.0)
+  {
+    initArgsSquareCos(arg1_i,arg1_j,param);
+  }
+  else if(param[0]*param[4] <= 0.0)
+  {
+    initArgsMinusExp(arg1_i,arg1_j,param);
+  }
+  return 0;
+}
 /**************************************************************
-   Initialize the number of data and all the arrays
-**************************************************************/
+  Initialize the number of data and all the arrays
+ **************************************************************/
 int scaleEventoOddMatrix(int m_dst, int n_dst, double **dest, 
     int m_src, int n_src, double **src)
 {

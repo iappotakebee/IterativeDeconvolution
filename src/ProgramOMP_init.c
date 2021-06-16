@@ -166,7 +166,7 @@ int main (int argc, char *argv[])
   /**************************************************************
     Parameters to adjust deconvolution performance
   **************************************************************/
-  double       alpha     = 1000.0;
+  double       alpha     = 1000;
   const double ls_alpha  = 0.95;
   //const double mr_alpha  = 1.05;
   const double lim_alpha = 0.5E-6;
@@ -418,10 +418,10 @@ int main (int argc, char *argv[])
     else
     {
       // calculate the evaluation function (err x unit)
-#pragma omp parallel for default(none) \
-      private(i,j,tmp)\
-      shared(n_tgt, n_uni, hn_uni,error,unit)\
-      reduction(+:update[:n_all])
+//#pragma omp parallel for default(none) \
+//      private(i,j,tmp)\
+//      shared(n_tgt, n_uni, hn_uni,error,unit)\
+//      reduction(+:update[:n_all])
       for (i=0; i<n_tgt; i++)
       {
         for (j=0; j<n_uni; j++)
