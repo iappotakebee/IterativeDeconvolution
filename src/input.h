@@ -8,7 +8,7 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/stat.h>
-//#include <omp.h>
+#include <omp.h>
 #include "func.h"
 
 #define DEBUG_PRINT_INT(a) (printf("%s: %d\n", #a, a))

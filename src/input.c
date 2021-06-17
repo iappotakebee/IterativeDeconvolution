@@ -43,7 +43,7 @@ double **readSeparatedValueFiles
 #endif /* _DEBUG_ */
   FILE *fp;
   char buf[BUFF_SIZE], *line;
-  int  i,cnt_row,cnt_col,
+  int  i,cnt_row,cnt_col,cnt,
        read_size=0, read_size_bef=0,
        tmp_line_max=1, line_max=1, /* '\0' */
        tmp_row=0, tmp_col_init=0, tmp_col=0, 
@@ -120,16 +120,16 @@ double **readSeparatedValueFiles
     }
     tmp_col = tmp_col_init;
   }
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
   printf("-- read (%d x %d) items in\n %s\n", tmp_row,tmp_col, fpth);
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
   if (flg_readasfile == VALID)
   {
     (*row) = tmp_row;
     (*col) = tmp_col;
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- modified the number of rows and columns.\n");
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
   }
   /* verify the data can be reshaped in the designated size */
   if (flg_work == VALID && tmp_row * tmp_col == (*row)*(*col))
@@ -141,36 +141,59 @@ double **readSeparatedValueFiles
       (*col) = (*row);
       (*row) = 1;
     }
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- preparing for reading the data.\n"
            "    line : (%d) arrays\n"
            "    p_arr: (%d x %d) arrays\n",
         line_max, *row, *col
         );
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     line = (char*) allocateVector(sizeof(char), line_max);
     p_arr = (double**) allocateMatrix(sizeof(double), (*row), (*col));
     cnt_row = 0;
     cnt_col = 0;
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- starting to scan each line.\n");
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     while ( fscanf(fp, "%s", line) != EOF)
     {
-      p_arr[cnt_row][cnt_col] = atof(line);
-      if(cnt_col+1 == (*col))
+      cnt=0;
+      for(i=0;i<line_max;i++)
       {
-        if (cnt_row +1 != (*row)) 
+        if(
+            (buf[cnt]=line[i])==delimiter[0] ||
+             buf[cnt]           == '\0'        
+          )
         {
-          cnt_col = 0;
-          cnt_row++;
+          if(buf[0] != '\0') 
+          {
+            p_arr[cnt_row][cnt_col] = atof(buf);
+            if(cnt_col+1 == (*col))
+            {
+              if (cnt_row +1 != (*row)) 
+              {
+                cnt_col = 0;
+                cnt_row++;
+              }
+            }
+            else
+            {
+              cnt_col++;
+            }
+          }
+          memset(buf,'\0',sizeof(char)*BUFF_SIZE);
+          cnt = 0;
+        }
+        else
+        {
+          cnt++;
+        }
+        if( line[i] == '\0')
+        {
+          memset(line,'\0',sizeof(char)*line_max);
+          break;
         }
       }
-      else
-      {
-        cnt_col++;
-      }
-      memset(line,'0',sizeof(char)*line_max);
     }
     if(cnt_row+1 != (*row) || cnt_col+1 !=(*col))
     {
@@ -182,7 +205,7 @@ double **readSeparatedValueFiles
     else
     {
 #ifdef _DEBUG_
-//      printf("-- finished reading as expected.\n");
+      printf("-- finished reading as expected.\n");
 #endif /* _DEBUG_ */
     }
     deallocateVector((void*)line);
@@ -275,11 +298,13 @@ int  initMatrixToRodriguesRotation
 int initVectorToDblZero(int ni, double *a)
 {
   int i;
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i)\
   shared(ni, a)
 #endif /*_SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<ni; i++)
   {
       a[i] = 0.0;
@@ -290,11 +315,13 @@ int initVectorToDblIdentity(int nj, double *a, int n_cols)
 {
   int i, max_i=(int)nj/(n_cols+1);
   initVectorToDblZero(nj, a);
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i)\
-  shared(n_cols, nj, a, max_i)
+  shared(n_cols, a, max_i)
 #endif /*_SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<max_i; i++)
   {
       a[n_cols*i+i] = 1.0;
@@ -304,11 +331,13 @@ int initVectorToDblIdentity(int nj, double *a, int n_cols)
 int initVectorToIntZero(int ni, int *a)
 {
   int i;
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i)\
   shared(ni, a)
 #endif /*_SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<ni; i++)
   {
       a[i] = 0.0;
@@ -317,16 +346,24 @@ int initVectorToIntZero(int ni, int *a)
 }
 int copyMatrix(int m, int n, double *dest, double *src)
 {
+#ifndef LAPACK_H
   int i, n_tot = m*n ;
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i)\
   shared(n_tot,dest,src)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for(i=0; i<n_tot; i++)
   {
     dest[i]=src[i];
   }
+#endif /* LAPACK_H */
+#ifdef LAPACK_H
+  int num=m*n,incx=1,incy=1;
+  dcopy_(&num,src,&incx,dest,&incy);
+#endif /* LAPACK_H */
   return 0;
 }
 int  trimMatrix
@@ -337,11 +374,13 @@ int  trimMatrix
   printf("trimMatrix:\n");
   if(i_st + m_dst -1 < m_src && j_st + n_dst -1 < n_src)
   {
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i,j)\
-  shared(tot_dst,m_dst,n_dst,n_src,dest,src)
+  shared(m_dst,n_dst,n_src,i_st,j_st,dest,src)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
     for(i=0; i<m_dst; i++)
     {
       for(j=0; j<n_dst; j++)
@@ -374,18 +413,20 @@ int convoluteMatMat (int m_dest, int n_dest, double *dest,
   printf("-- src: (%d x %d)\n", m_src, n_src);
   printf("-- ker: (%d x %d)\n", m_ker, n_ker);
 #endif /*_DEBUG_ */
-  int i,j,m,n;
+  int i,j,m,n,ttl_dest=m_dest*n_dest;
   if(m_src + m_ker - 1 != m_dest 
       || n_src + n_ker - 1 != n_dest)
   {
     printf("-- warning: extra cells exist\n");
   }
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none) \
   private(i,j,m,n)\
-  shared(m_dest,n_dest,m_src,n_src,m_ker,n_ker,src,ker)\
+  shared(n_dest,m_src,n_src,m_ker,n_ker,src,ker)\
   reduction(+:dest[:ttl_dest])
 #endif /*_SERIAL_CALCULATION*/
+#endif /* _OPENMP */
   for (i=0; i<m_src; i++)
   {
     for (j=0; j<n_src; j++)
@@ -548,6 +589,13 @@ int transSeparatedFile(char* fpth)
   {
     trans_arr = 
       (double**) allocateMatrix(sizeof(double), col, row);
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none) \
+    private(i,j)                   \
+    shared(trans_arr, tmp_arr,row,col)
+#endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
     for (i=0;i<row;i++)
     {
       for (j=0;j<col;j++)

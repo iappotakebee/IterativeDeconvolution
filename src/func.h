@@ -1,5 +1,6 @@
 ﻿#ifndef _FUNC_H
 #define _FUNC_H
+//#define _SERIAL_CALCULATION
 
 #include "input.h"
 /*
@@ -199,15 +200,5 @@ extern int  initDisplay
           (int n_tgt, int n_uni, int hn_uni, int n_all,
           double init_st, double init_en, int nthreads);
 // Record or output arrays or data
-extern int    MemorizeData(int ni, int cnt, double* a, double** hist);
-extern int    WriteAllHistory(int ni, int nj, int cnt, 
-           char* filename, char** info, double** hist);
-extern int    Output(int ni, int nj, 
-          char *filename, double **aa);
-extern int    WriteAllAndHeader(int ni, int nj, char *filepath, 
-          double **aa, char **bb, double *c);
-extern int    WritePartAndHeader(int n_all, int n_tgt, int n_uni, 
-          int nj, char *filepath, 
-          double **aa, char **bb, double *c);
 extern int    DisplaySumDwellTime(int n_all, double *dwelltime);
 #endif /*  _FUNC_H */

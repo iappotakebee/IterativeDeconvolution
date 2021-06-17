@@ -1,6 +1,7 @@
 ﻿#include "input.h"
 #include "func.h"
 
+
 int main (int argc, char *argv[])
 {
   /**************************************************************
@@ -8,14 +9,14 @@ int main (int argc, char *argv[])
   **************************************************************/
   double alpha      = 1000.0,
          threshold  = 0.01;
-  int    n_loopmax  = 200000, 
-         n_looprec  = 50000, 
+  int    n_loopmax  = 20000, 
+         n_looprec  = 5000, 
          n_loopdisp = 2000;
   double parameters[PARAMNUM] = {
     01.0, /* offset_dwell in ms */
-    70.0,  /* offset_tgt in nm   */
-    5.0,  /* mgnratio_row (int) */
-    5.0   /* mgnratio_col (int) */
+    200.0,  /* offset_tgt in nm   */
+    1.0,  /* mgnratio_row (int) */
+    2.0   /* mgnratio_col (int) */
   };
   /**************************************************************
     Some useful arguments (change them where necessary)
@@ -26,14 +27,14 @@ int main (int argc, char *argv[])
     VALID,    /* readparameteronconsole */
     VALID,    /* silent */
     VALID,    /* readasfileshape */
-    MIX       /* extendupdate      */
+    INVALID   /* extendupdate      */
   };
   decnv_arr    data[IDX_NUM];
-  int          i,j,cnt, cnt_rec, nthreads,
+  int          i,j,cnt, cnt_rec, nthreads, 
                gap_tr_i, gap_tr_j,gap_ud_i,gap_ud_j;
   double       tmp, rms_bef = 10E7, rms_aft = 10E7,
                figerr_max = 0.0, figerr_min = 10E7,
-               st, en, st_omp=-1, en_omp=-2, init_st, init_en;
+               st, en, st_omp=-1.0, en_omp=-2.0, init_st, init_en;
   const double ls_alpha  = 0.95,
                lim_alpha = 0.5E-6;
   /**************************************************************
@@ -134,20 +135,24 @@ int main (int argc, char *argv[])
         data[IDX_UNIT ].row, data[IDX_UNIT].col,
         data[IDX_UNIT ].mat[0]
         );
-    /* calculate the errors between the target and the figure */
+    /* calculate the errors between the target and the figure.
+     * rms_aft might be subject to round errors.  */
     rms_bef = rms_aft;  
     rms_aft = 0.0;
     tmp = 0.0;
 #ifdef _OPENMP
-#pragma omp parallel for default(none)       \
-    private(i,j, tmp)                           \
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none) \
+    private(i,j,tmp)                   \
     shared(data, gap_tr_i,gap_tr_j)\
     reduction(+:rms_aft)
+#endif /* _SERIAL_CALCULATION */
 #endif /* _OPENMP */
     for (i=0; i<data[IDX_ERR].row; i++)
     {
       for (j=0; j<data[IDX_ERR].col; j++)
       {
+        data[IDX_ERR].mat[i][j] = 
         tmp = 
           data[IDX_TGT].mat[i][j] 
           - data[IDX_REAL].mat[gap_tr_i + i][gap_tr_j + j];
@@ -190,9 +195,11 @@ int main (int argc, char *argv[])
       } 
       /* refresh the dwelltime using (t=t-alpha × (p-f)) */
 #ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none)\
       private(i,j, tmp)\
       shared(alpha,parameters,data,gap_ud_i,gap_ud_j)
+#endif /* _SERIAL_CALCULATION */
 #endif /* _OPENMP */
       for (i=0; i<data[IDX_UPDATE].row; i++)
       {
@@ -217,11 +224,13 @@ int main (int argc, char *argv[])
     }
   }
 #ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none)\
       private(i,j)\
       shared(data)\
       reduction(max:figerr_max)\
-      reduction( min:figerr_min)
+      reduction(min:figerr_min)
+#endif /* _SERIAL_CALCULATION */
 #endif /* _OPENMP */
   for (i=0; i<data[IDX_ERR].row; i++)
   {

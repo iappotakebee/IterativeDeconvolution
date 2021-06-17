@@ -79,15 +79,15 @@ int printDecnvArray(decnv_arr *data, int index)
 }
 int writeDecnvArray(decnv_arr *data, int index)
 {
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
   printf("\nwriteDecnvArray:\n-- ");
   printDecnvArray(data, index);
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
   FILE *fp;
   int i,j, cnt;
-  char header_format[] = " ,%s,%s,%s,%s,%s\n";
+  char header_format[] = " ,%s,%s,%s,%s,%s,%s,%s\n";
   char value_format[]  = 
-    "%d,%30.18lf,%30.18lf,%30.18lf,%30.18lf,%30.18lf\n";
+    "%d,%d,%d,%30.18lf,%30.18lf,%30.18lf,%30.18lf,%30.18lf\n";
   decnv_arr *p_datum = &data[index];
   /* write the current array */
   if(p_datum->mat != NULL && p_datum->exppth[0] != '\0')
@@ -96,44 +96,46 @@ int writeDecnvArray(decnv_arr *data, int index)
     {
       fp=fopen(p_datum->exppth, "w");
       faddSglPointer(fp, p_datum->col, p_datum->mat[0]);
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
       printf("-- wrote (%d) arrays at\n    %s\n",
           p_datum->col,p_datum->exppth);
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     }
     else
     {
       fp=fopen(p_datum->exppth, "w");
       faddDblPointer(fp, p_datum->row, p_datum->col, p_datum->mat);
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
       printf("-- wrote (%d x %d) arrays at\n    %s\n",
           p_datum->row, p_datum->col, p_datum->exppth);
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     }
     fclose(fp);
   }
   else
   {
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- nothing to write.\n");
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
   }
   /* add the current array to the history file */
   if(p_datum->mat != NULL && p_datum->histpth[0] != '\0')
   {
       fp=fopen(p_datum->histpth, "a");
       faddSglPointer(fp, p_datum->ttl, p_datum->mat[0]);
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
       printf("-- wrote (1 x %d) arrays at\n    %s\n",
           p_datum->ttl, p_datum->histpth);
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
       fclose(fp);
   }
   /* output all the data in a single csv */
+  printf("-- writing all tha data in a single csv.\n");
   if(data[IDX_ALL].exppth[0] != '\0')
   {
     fp=fopen(data[IDX_ALL].exppth, "w");
     fprintf(fp, header_format,
+        "j","i",
         data[IDX_TGT   ].name,
         data[IDX_REAL  ].name,
         data[IDX_ERR   ].name,
@@ -147,6 +149,7 @@ int writeDecnvArray(decnv_arr *data, int index)
       {
         fprintf(fp, value_format,
             cnt,
+            j,i,
             convertDecnvArray(&data[IDX_TGT   ],i,j),
             convertDecnvArray(&data[IDX_REAL  ],i,j),
             convertDecnvArray(&data[IDX_ERR   ],i,j),
@@ -159,10 +162,12 @@ int writeDecnvArray(decnv_arr *data, int index)
     fclose(fp);
   }
   /* output extracted the data in a single csv */
+  printf("-- writing tha extracted data in a single csv.\n");
   if(data[IDX_PART].exppth[0] != '\0')
   {
     fp=fopen(data[IDX_PART].exppth, "w");
     fprintf(fp, header_format,
+        "j","i",
         data[IDX_TGT   ].name,
         data[IDX_REAL  ].name,
         data[IDX_ERR   ].name,
@@ -180,6 +185,7 @@ int writeDecnvArray(decnv_arr *data, int index)
       {
         fprintf(fp, value_format,
             cnt,
+            j,i,
             convertDecnvArray(&data[IDX_TGT   ],i,j),
             convertDecnvArray(&data[IDX_REAL  ],i,j),
             convertDecnvArray(&data[IDX_ERR   ],i,j),
@@ -259,11 +265,13 @@ int writeTmpDecnvArrays(decnv_arr *data, int tmpcnt)
   printf("\nwriteTmpDecnvArrays:\n-- ");
 #endif /* _DEBUG_ */
   int i;
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none)\
       private(i)\
       shared(data, tmpcnt)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<IDX_NUM; i++)
   {
     writeTmpDecnvArray(data, i, tmpcnt);
@@ -368,7 +376,17 @@ int  initExpFilePaths(decnv_arr *data, int *flgs)
     (data[IDX_DATPATH].exppth,"","../files/outputOMP/","", flg_silent);
   if (flgs[ADD_TIME] == VALID)
   {
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+    snprintf(ctmp, BUFF_SIZE, "%.*s_OMP", 
+        BUFF_SIZE-5,data[IDX_TMSTMP].exppth);
+#else 
+    snprintf(ctmp, BUFF_SIZE,  "%.*s_SERIAL", 
+        BUFF_SIZE-8,data[IDX_TMSTMP].exppth);
+#endif /* _SERIAL_CALCULATION */
+#else 
     sprintf(ctmp, "%s", data[IDX_TMSTMP].exppth);
+#endif /* _OPENMP */
   }
   flg_work += initFileNames(data[IDX_TGTORG].exppth,ctmp,
       data[IDX_DATPATH].exppth,"target_org.csv"         ,
@@ -509,17 +527,32 @@ int importFiles(decnv_arr *data, int *flgs)
 }
 int exportFiles(decnv_arr *data, int *flgs)
 {
+  printf("exportFiles:\n");
   int i;
   decnv_arr *tmp_decnv_arr;
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none) \
+    private(i,tmp_decnv_arr)                   \
+    shared(data)
+#endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0;i<IDX_NUM;i++)
   {
     tmp_decnv_arr = &data[i];
+    printf("-- writing all the data"
+       " (idx %d).\n",i);
     if (tmp_decnv_arr->exppth[0] != '\0')
       writeDecnvArray(data, i);
+    printf("-- checking the format of history files"\
+       " (idx %d).\n",i);
     if (tmp_decnv_arr->histpth[0] != '\0')
       transSeparatedFile(tmp_decnv_arr->histpth);
+    printf("-- checking the format of exported files."
+       " (idx %d).\n",i);
     if (tmp_decnv_arr->row == 1)
       transSeparatedFile(tmp_decnv_arr->exppth);
+    printf("-- data index %d completed.\n",i);
   }
   return 0;
 }
@@ -665,11 +698,13 @@ int initCalculationRange
           mode)!=VALID)
       printf("-- unable to extrapolate the target\n");
   }
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
-  private(i)\
+  private(i,j)\
   shared(data, tmp_i, tmp_j)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<data[IDX_TGTORG].row; i++)
   {
     for (j=0; j<data[IDX_TGTORG].col; j++)
@@ -678,11 +713,13 @@ int initCalculationRange
         = data[IDX_TGTORG].mat[i][j];
     }
   }
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
   private(i)\
   shared(data, offset_hgt)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<data[IDX_TGT].ttl; i++)
   {
     data[IDX_TGT].mat[0][i] += offset_hgt;
@@ -704,12 +741,12 @@ int initCalculationRange
     /* 2D deconvolution */
     data[IDX_DWELL].row = (int)(
       data[IDX_TGTORG].row 
-      + data[IDX_UNIT].row * (mgnratio_row-1) * 2
-      + 0.5* (data[IDX_UNIT].row + 1));
+      + data[IDX_UNIT].row * ((int)mgnratio_row-1) * 2
+      + (data[IDX_UNIT].row + 1));
     data[IDX_DWELL].col = (int)(
       data[IDX_TGTORG].col 
-      + data[IDX_UNIT].col * (mgnratio_col-1) * 2
-      + 0.5* (data[IDX_UNIT].col + 1));
+      + data[IDX_UNIT].col * ((int)mgnratio_col-1) * 2
+      + (data[IDX_UNIT].col + 1));
     data[IDX_DWELL].i_st = (int)(0.5*(data[IDX_UNIT].row -1));
     data[IDX_DWELL].j_st = (int)(0.5*(data[IDX_UNIT].col -1));
   }
@@ -768,6 +805,11 @@ int initCalculationRange
           "-- initialized the dwell time matrix with %lf.\n",
           parameters[OFFSET_DWELL]);
     }
+  }
+  else
+  {
+      printf("-- initialized the dwell time matrix with %lf.\n",
+          parameters[OFFSET_DWELL]);
   }
   for (i=0;i<data[IDX_DWELL].ttl; i++)
   {
@@ -890,6 +932,8 @@ int applyWindowFunction
     else if(strcmp(mode, "mix")==VALID)
     {
       printf("-- extrapolate matrix with cos^2 and exp.\n");
+      param[2]=i_st;
+      param[3]=j_st;
       windowfunc = squareCosMinusExp;
       argfunc    = initArgsMix;
     }
@@ -1042,7 +1086,7 @@ int initArgsSquareCos
   }
   return 0;
 }
-  int initArgsMinusExp 
+int initArgsMinusExp 
 (double *arg1_i, double *arg1_j, double *param)
 {
   if(param[1] != 0.0)
@@ -1063,7 +1107,7 @@ int initArgsSquareCos
   }
   return 0;
 }
-  int initArgsMix 
+int initArgsMix 
 (double *arg1_i, double *arg1_j, double *param)
 {
   if(param[0]*param[4]  > 0.0)
@@ -1094,11 +1138,13 @@ int scaleEventoOddMatrix(int m_dst, int n_dst, double **dest,
   }
   else if (m_gap == 0 && n_gap == -1)
   {
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
   private(i,j)\
   shared(m_dst,n_dst,dest,src)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
     for(i=0;i<m_dst;i++)
     {
       for(j=0;j<n_dst;j++)
@@ -1109,11 +1155,13 @@ int scaleEventoOddMatrix(int m_dst, int n_dst, double **dest,
   }
   else if (m_gap == -1 && n_gap == 0)
   {
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
   private(i,j)\
   shared(m_dst,n_dst,dest,src)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
     for(i=0;i<m_dst;i++)
     {
       for(j=0;j<n_dst;j++)
@@ -1124,11 +1172,13 @@ int scaleEventoOddMatrix(int m_dst, int n_dst, double **dest,
   }
   else if (m_gap == -1 && n_gap == -1)
   {
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
   private(i,j)\
   shared(m_dst,n_dst,dest,src)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
     for(i=0;i<m_dst;i++)
     {
       for(j=0;j<n_dst;j++)
@@ -1162,15 +1212,19 @@ int initDisplay(int n_tgt, int n_uni, int hn_uni, int n_all,
   // display the number of PEs
   printf("The number of threads\n");
   printf("  # Total    : %7d\n",  nthreads);
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none) \
     private(i,myid)                    \
     shared(nthreads)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<nthreads;i++)
   {
 #ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION
     myid = omp_get_thread_num();
+#endif /* _SERIAL_CALCULATION */
 #endif /* _OPENMP */
     printf("  # Thread   : %7d\n",  myid);
   }
@@ -1179,92 +1233,18 @@ int initDisplay(int n_tgt, int n_uni, int hn_uni, int n_all,
   printf("\n");
   return 0;
 }
-  /**************************************************************
-     Record or output arrays or data                     
-  **************************************************************/
-int MemorizeData(int ni, int cnt, double* a, double** hist)
-{
-  int i;
-#ifndef _SERIAL_CALCULATION
-#pragma omp parallel for default(none) \
-  private(i)                           \
-  shared(cnt,ni,hist, a)               
-#endif /* _SERIAL_CALCULATION */
-  for (i=0; i<ni; i++)
-  {
-      hist[i][cnt] = a[i];
-  }
-  return 0;
-}
-int WriteAllHistory(int ni, int nj, int cnt, 
-    char* filename, char** info, double** hist)
-{
-  int i, j;
-  FILE *fp;
-  fp=fopen(filename, "w");
-  fprintf(fp, "%10s ", "Count");
-  for (j=0; j<cnt; j++)
-  {
-    fprintf(fp, "%25s ", info[j]);  
-  }
-  fprintf(fp, "\n");  
-  for (i=0; i<ni; i++)
-  {
-    fprintf(fp, "%10d ", i);
-    for (j=0; j<cnt; j++)
-    {
-      fprintf(fp, "%25.18e ", hist[i][j]);  
-    }
-    fprintf(fp, "\n");  
-  }
-  fclose(fp);
-  return 0;
-}
-int WriteAllAndHeader(int ni, int nj, char* filepath, 
-    double** aa, char** bb, double* c)
-{
-  int i, j;
-  FILE *fp;
-  fp=fopen(filepath, "w");
-  printf("filepath:\n %s\n", filepath);
-  fprintf(fp, "%25s ", "Count");  
-  for (i=0; i<(nj+N_INFO); i++)
-  {
-    fprintf(fp, "%25s ", bb[i]);  
-  }
-  fprintf(fp, "\n");  
-  fprintf(fp, "%25d ", 0);  
-  for (j=0; j<nj; j++)
-  {
-    fprintf(fp, "%25.18e ", aa[0][j]);  
-  }
-  for (j=0; j<N_INFO; j++)
-  {
-    fprintf(fp, "%25.18e ", c[j]);  
-  }
-  fprintf(fp, "\n");  
-  for (i=1; i<ni; i++)
-  {
-    fprintf(fp, "%25d ", i);  
-    for (j=0; j<nj; j++)
-    {
-      fprintf(fp, "%25.18e ", aa[i][j]);  
-    }
-    fprintf(fp, "\n");  
-  }
-  fclose(fp);
-  return 0;
-}
 int DisplaySumDwellTime(int n_all, double *dwelltime)
 {
   int i;
   double sum=0.0;
+#ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION
 #pragma omp parallel for default(none)\
   private(i)                          \
   shared(n_all, dwelltime)            \
   reduction(+:sum)
 #endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
   for (i=0; i<n_all; i++)
   {
     sum += dwelltime[i];
