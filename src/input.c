@@ -128,7 +128,7 @@ double **readSeparatedValueFiles
       }
       else 
       {
-        printf("-- detected extra new line at the end.\n"
+        printf("-- detected an extra new line at the end.\n"
             "-- tmp bef  : (%5d x %5d)\n",
             tmp_row, tmp_col);
         tmp_col = tmp_col_init;
@@ -440,7 +440,12 @@ int convoluteMatMat (int m_dest, int n_dest, double *dest,
   printf("-- src: (%d x %d)\n", m_src, n_src);
   printf("-- ker: (%d x %d)\n", m_ker, n_ker);
 #endif /*_DEBUG_ */
-  int i,j,m,n,ttl_dest=m_dest*n_dest;
+  int i,j,m,n;
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+  int ttl_dest=m_dest*n_dest;
+#endif /*_SERIAL_CALCULATION*/
+#endif /* _OPENMP */
   if(m_src + m_ker - 1 != m_dest 
       || n_src + n_ker - 1 != n_dest)
   {

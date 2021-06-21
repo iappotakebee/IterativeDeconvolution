@@ -1,6 +1,6 @@
 CC        = gcc
 CFLAGS    = -Wall -O3 -lm #-lblas -llapack
-OPTFLAGS  = #-fopenmp 
+OPTFLAGS  = -fopenmp 
 LDFLAGS   = 
 TARGET    = ../run/OMPInitDeconvolution
 

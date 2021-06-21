@@ -6,16 +6,16 @@ int main (int argc, char *argv[])
   /**************************************************************
     Parameters to adjust deconvolution performance
   **************************************************************/
-  double parameters[PARAMNUM] = {
-    01.0,       /* OFFSET_DWELL in ms */
-    70.0,      /* OFFSET_TGT in nm   */
-    1.0,        /* MGNRATIO_ROW (int) */
-    1.0,        /* MGNRATIO_COL (int) */
+  static double parameters[PARAMNUM] = {
     1000,     /* ALPHA              */
     0.01,       /* THRESHOLD          */
-    1000,     /* N_LOOPMAX   (int)  */
-    1000,      /* N_LOOPREC   (int)  */
-    1,       /* N_LOOPDISP  (int)  */
+    01.0,       /* OFFSET_DWELL in ms */
+    70.0,      /* OFFSET_TGT in nm   */
+    100000,     /* N_LOOPMAX   (int)  */
+    50000,      /* N_LOOPREC   (int)  */
+    2000,       /* N_LOOPDISP  (int)  */
+    1.0,        /* MGNRATIO_ROW (int) */
+    1.0,        /* MGNRATIO_COL (int) */
     10E7,       /* RMS_BEF            */
     10E7,       /* RMS_AFT            */
     -1E8,       /* FIGERR_MAX         */
@@ -27,7 +27,7 @@ int main (int argc, char *argv[])
   /**************************************************************
     Some useful arguments (change them where necessary)
   **************************************************************/
-  int  flgs[FLGNUM] = {
+  static int  flgs[FLGNUM] = {
     VALID,    /* addtime */
     VALID,    /* readfileonconsole */
     VALID,    /* readparameteronconsole */
@@ -35,7 +35,7 @@ int main (int argc, char *argv[])
     VALID,    /* readasfileshape */
     INVALID   /* extendupdate      */
   };
-  double timestamps[N_TIMEST][TYPES] = {
+  static double timestamps[N_TIMEST][TYPES] = {
     {-1.0,-2.0},  /*  ST_TOTAL */ 
     {-1.0,-2.0},  /*  EN_TOTAL */ 
     {-1.0,-2.0},  /*  ST_INIT  */
@@ -43,7 +43,7 @@ int main (int argc, char *argv[])
     {-1.0,-2.0},  /*  ST_EXP   */
     {-1.0,-2.0}   /*  EN_EXP   */
   };
-  decnv_arr    data[IDX_NUM];
+  static decnv_arr    data[IDX_NUM];
   /**************************************************************
     Initialize the filename, the arrays and the parameters
   **************************************************************/
@@ -51,7 +51,7 @@ int main (int argc, char *argv[])
   getSerialParallelCompTime(timestamps[ST_INIT ]);
   // initialize filenames
   if ( 
-      (initDecnvArrays(data, flgs) != VALID)  ||
+      (initDecnvArrays (data, flgs) != VALID) ||
       (initExpFilePaths(data, flgs) != VALID) ||
       (initImpFilePaths(data, flgs) != VALID)
      )
@@ -63,26 +63,45 @@ int main (int argc, char *argv[])
   {
     printf("...initialized the data.\n");
   }
-  importFiles(data, flgs);
-  initCalculationRange(data, parameters, flgs);
+  if (
+      importFiles(data, flgs)    != VALID ||
+      initParameters(parameters) != VALID ||
+      initCalculationRange(data, parameters, flgs) != VALID
+     )
+  {
+    printf("...unable to initialize the ranges.\n");
+    exit(1);
+  }
+  else
+  {
+    printf("...initialized the range.\n");
+  }
   getSerialParallelCompTime(timestamps[EN_INIT ]);
   /* display the initial conditions */
   initDisplay(data, parameters, timestamps);
-  //if (data[IDX_TGTORG ].row == 1 &&
-  //    data[IDX_UNITORG].row == 1
-  //   )
-  //{
-  //  printf("...started 1D deconvolution.\n");
-  //  deconvoluteVectors(data, parameters);
-  //}
-  //else
+  if (data[IDX_TGTORG ].row == 1 &&
+      data[IDX_UNITORG].row == 1
+     )
   {
-    printf("...started 2D deconvolution.\n");
-//#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+    printf("...started 1D deconvolution ");
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+    printf("(parallel).\n");
+    deconvoluteVectorsParallel(data, parameters);
+#else
+    printf("(serial).\n");
+    deconvoluteVectors(data, parameters);
+#endif /*_SERIAL_CALCULATION, _OPENMP */
+  }
+  else
+  {
+    printf("...started 2D deconvolution ");
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+    printf("(parallel).\n");
     deconvoluteMatricesParallel(data, parameters);
-//#else
-//    deconvoluteMatrices(data, parameters);
-//#endif /*_SERIAL_CALCULATION, _OPENMP */
+#else
+    printf("(serial).\n");
+    deconvoluteMatrices(data, parameters);
+#endif /*_SERIAL_CALCULATION, _OPENMP */
   }
   calcMaxMin(data[IDX_ERR].ttl, data[IDX_ERR].mat[0],
       &parameters[FIGERR_MAX], &parameters[FIGERR_MIN]);

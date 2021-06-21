@@ -143,15 +143,15 @@
 #define RMSDECREASE          1
 /* parameters */
 #define PARAMNUM     16
-#define OFFSET_DWELL 0
-#define OFFSET_TGT   1
-#define MGNRATIO_ROW 2
-#define MGNRATIO_COL 3
-#define ALPHA        4
-#define THRESHOLD    5
-#define N_LOOPMAX    6
-#define N_LOOPREC    7
-#define N_LOOPDISP   8
+#define ALPHA        0
+#define THRESHOLD    1
+#define OFFSET_DWELL 2
+#define OFFSET_TGT   3
+#define N_LOOPMAX    4
+#define N_LOOPREC    5
+#define N_LOOPDISP   6
+#define MGNRATIO_ROW 7
+#define MGNRATIO_COL 8
 #define RMS_BEF      9
 #define RMS_AFT      10
 #define FIGERR_MAX   11
@@ -200,6 +200,7 @@ extern int initImpFilePaths(decnv_arr *data, int *flgs);
 extern int scanFilePaths(decnv_arr *data);
 extern int initExpFilePaths(decnv_arr *data, int *flgs);
 extern int importFiles(decnv_arr *data, int *flgs);
+extern int initParameters(double *parameters);
 extern int initCalculationRange
           (decnv_arr *data, double *parameters, int *flgs);
 extern double  convertDecnvArray
@@ -225,6 +226,8 @@ extern int deconvoluteMatrices
 extern int deconvoluteMatricesParallel
           (decnv_arr *data, double *parameters);
 extern  int deconvoluteVectors
+          (decnv_arr *data, double *parameters);
+extern  int deconvoluteVectorsParallel
           (decnv_arr *data, double *parameters);
 // Initialize the number of data and all the arrays
 extern int scaleEventoOddMatrix
