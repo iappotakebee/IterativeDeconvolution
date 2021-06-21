@@ -137,12 +137,40 @@
 #define COS2                 2
 #define EXP                  3
 #define MIX                  4
+/* control flags */
+#define CONTFLGNUM           2
+#define CONTINUELOOP         0
+#define RMSDECREASE          1
 /* parameters */
-#define PARAMNUM     4
+#define PARAMNUM     16
 #define OFFSET_DWELL 0
 #define OFFSET_TGT   1
 #define MGNRATIO_ROW 2
 #define MGNRATIO_COL 3
+#define ALPHA        4
+#define THRESHOLD    5
+#define N_LOOPMAX    6
+#define N_LOOPREC    7
+#define N_LOOPDISP   8
+#define RMS_BEF      9
+#define RMS_AFT      10
+#define FIGERR_MAX   11
+#define FIGERR_MIN   12
+#define LS_ALPHA     13
+#define LIM_ALPHA    14
+#define COUNT        15
+
+/* time stamps */
+#define TYPES    2
+#define SER      0
+#define PAR      1
+#define N_TIMEST 6
+#define ST_TOTAL 0
+#define EN_TOTAL 1
+#define ST_INIT  2
+#define EN_INIT  3
+#define ST_EXP   4
+#define EN_EXP   5
 
 typedef struct decnv_arr{
   double **mat;
@@ -192,13 +220,20 @@ extern int initArgsMinusExp
           (double *arg1_i, double *arg1_j, double *param);
 extern int initArgsMix 
           (double *arg1_i, double *arg1_j, double *param);
+extern int deconvoluteMatrices
+          (decnv_arr *data, double *parameters);
+extern int deconvoluteMatricesParallel
+          (decnv_arr *data, double *parameters);
+extern  int deconvoluteVectors
+          (decnv_arr *data, double *parameters);
 // Initialize the number of data and all the arrays
 extern int scaleEventoOddMatrix
           (int m_dst, int n_dst, double **dest, 
            int m_src, int n_src, double **src);
-extern int  initDisplay
-          (int n_tgt, int n_uni, int hn_uni, int n_all,
-          double init_st, double init_en, int nthreads);
+extern int initDisplay
+          (decnv_arr *data, double *parameters, 
+           double (*timestamps)[TYPES]);
+
 // Record or output arrays or data
-extern int    DisplaySumDwellTime(int n_all, double *dwelltime);
+extern int displaySumDwellTime(int n_all, double *dwelltime);
 #endif /*  _FUNC_H */

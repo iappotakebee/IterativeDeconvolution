@@ -1,4 +1,5 @@
 ﻿#include"input.h"
+
   /**********************************************************
     Allocate & deallocate matrix 
   **********************************************************/
@@ -50,10 +51,11 @@ double **readSeparatedValueFiles
        flg_work = VALID, flg_head = INVALID;
   char delimiter[2] = " ";
   double **p_arr;
+  memset(buf,'\0',sizeof(char)*BUFF_SIZE);
   /* open a file */
   if ( (fp = fopen(fpth, "r")) == NULL )
   {
-    printf("-- couldn't find a file.\n");
+    printf("-- couldn't find a file.\n (%s)\n",fpth);
     flg_work = INVALID;
   }
   /* read characters by 1 byte */
@@ -91,10 +93,13 @@ double **readSeparatedValueFiles
       if (buf[i] == '\n') 
       {
         tmp_col++;
-        if (tmp_col != tmp_col_init && tmp_row > 0)
+        if (
+            tmp_col != tmp_col_init && 
+            tmp_row > 0 
+           )
         { 
-          printf("-- not matrix data (%d out of %d).\n",
-              tmp_col, tmp_col_init);
+          printf("-- not matrix data (%d out of %d) at row %d.\n",
+              tmp_col, tmp_col_init, tmp_row);
           flg_work = INVALID;
           break;
         }
@@ -114,47 +119,69 @@ double **readSeparatedValueFiles
       printf("-- invalid data.\n");
       flg_work = INVALID;
     }
-    else if (buf[read_size_bef -1] != '\n' && feof(fp)!=0)
+    else
     {
-      tmp_row++;
+      if (buf[read_size_bef -1] != '\n') 
+      {
+        tmp_row++;
+        tmp_col++;
+      }
+      else 
+      {
+        printf("-- detected extra new line at the end.\n"
+            "-- tmp bef  : (%5d x %5d)\n",
+            tmp_row, tmp_col);
+        tmp_col = tmp_col_init;
+        printf("-- tmp aft  : (%5d x %5d)\n",
+            tmp_row, tmp_col);
+      }
+      if (tmp_col != tmp_col_init && tmp_row > 1)
+      { 
+        printf("-- not matrix data (%d out of %d) "
+            "at the last row %d.\n",
+            tmp_col, tmp_col_init, tmp_row);
+        flg_work = INVALID;
+      }
+      if (tmp_line_max > line_max) line_max = tmp_line_max;
     }
     tmp_col = tmp_col_init;
   }
-//#ifdef _DEBUG_
+#ifdef _DEBUG_
   printf("-- read (%d x %d) items in\n %s\n", tmp_row,tmp_col, fpth);
-//#endif /* _DEBUG_ */
+#endif /* _DEBUG_ */
   if (flg_readasfile == VALID)
   {
     (*row) = tmp_row;
     (*col) = tmp_col;
-//#ifdef _DEBUG_
+#ifdef _DEBUG_
     printf("-- modified the number of rows and columns.\n");
-//#endif /* _DEBUG_ */
+#endif /* _DEBUG_ */
   }
+  fclose(fp);
   /* verify the data can be reshaped in the designated size */
   if (flg_work == VALID && tmp_row * tmp_col == (*row)*(*col))
   {
-    fclose(fp);
     fp = fopen(fpth, "r");
     if ((*col)==1)
     {
       (*col) = (*row);
       (*row) = 1;
     }
-//#ifdef _DEBUG_
+#ifdef _DEBUG_
     printf("-- preparing for reading the data.\n"
            "    line : (%d) arrays\n"
            "    p_arr: (%d x %d) arrays\n",
         line_max, *row, *col
         );
-//#endif /* _DEBUG_ */
+#endif /* _DEBUG_ */
     line = (char*) allocateVector(sizeof(char), line_max);
     p_arr = (double**) allocateMatrix(sizeof(double), (*row), (*col));
     cnt_row = 0;
     cnt_col = 0;
-//#ifdef _DEBUG_
+    memset(buf,'\0',sizeof(char)*BUFF_SIZE);
+#ifdef _DEBUG_
     printf("-- starting to scan each line.\n");
-//#endif /* _DEBUG_ */
+#endif /* _DEBUG_ */
     while ( fscanf(fp, "%s", line) != EOF)
     {
       cnt=0;
@@ -162,7 +189,7 @@ double **readSeparatedValueFiles
       {
         if(
             (buf[cnt]=line[i])==delimiter[0] ||
-             buf[cnt]           == '\0'        
+             buf[cnt]         == '\0'        
           )
         {
           if(buf[0] != '\0') 
@@ -443,6 +470,72 @@ int convoluteMatMat (int m_dest, int n_dest, double *dest,
   }
   return 0;
 }
+int convoluteVecVec (int n_dest, double *dest,
+    int n_src,  double *src, int n_ker,  double *ker)
+{
+#ifdef _DEBUG_
+  printf("\nconvoluteVecVec:\n");
+  printf("-- dst: (1 * %d)\n", n_dest);
+  printf("-- src: (1 * %d)\n", n_src);
+  printf("-- ker: (1 * %d)\n", n_ker);
+#endif /*_DEBUG_ */
+  int j,n;
+  if(n_src + n_ker - 1 != n_dest)
+  {
+    printf("-- warning: extra cells exist\n");
+  }
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none) \
+  private(j, n)\
+  shared(n_dest,n_src,n_ker,src,ker)\
+  reduction(+:dest[:n_dest])
+#endif /*_SERIAL_CALCULATION*/
+#endif /* _OPENMP */
+  for (j=0; j<n_src; j++)
+  {
+    for (n=0; n<n_ker; n++)
+    {
+      dest[j+n] 
+        += src[j]*ker[n];
+    }
+  }
+  return 0;
+}
+int calcMaxMin 
+   (int n, double *mat, double *max, double *min)
+{
+  printf("calcMaxMin:\n"
+      "-- initial values:\n"
+      "---- max: %lf\n"
+      "---- min: %lf\n",
+      *max, *min
+      );
+  int    i; 
+  double tmp_max=*max, tmp_min=*min;
+#ifdef _OPENMP
+#ifndef _SERIAL_CALCULATION 
+#pragma omp parallel for default(none)\
+      private(i)\
+      shared(mat, n)\
+      reduction(max:tmp_max)\
+      reduction(min:tmp_min)
+#endif /* _SERIAL_CALCULATION */
+#endif /* _OPENMP */
+  for (i=0; i<n; i++)
+  {
+      if (tmp_max < mat[i]) tmp_max = mat[i];
+      if (tmp_min > mat[i]) tmp_min = mat[i];
+  }
+  *max = tmp_max;
+  *min = tmp_min;
+  printf("-- results :\n"
+      "---- max: %lf\n"
+      "---- min: %lf\n",
+      *max, *min
+      );
+  return 0;
+}
   /**********************************************************
     Output data
   **********************************************************/
@@ -456,7 +549,7 @@ int initFileNames(char* newfpth,
   // create a new directory
   if(time[0] == '\0')
   {
-    if(flg_silent != VALID) printf("-- Skipped date information.\n");
+    if(flg_silent != VALID) printf("-- skipped date information.\n");
     tmp_byte = snprintf(tmp_path,sizeof(tmp_path)-1,
         "%.*s", 
         BUFF_SIZE, fpth
@@ -472,7 +565,7 @@ int initFileNames(char* newfpth,
   }
   if (tmp_byte>=BUFF_SIZE || tmp_byte <0)
   {
-    printf("-- Invalid file path.\n");
+    printf("-- invalid file path.\n");
   }
   if (stat(tmp_path, &statbuf) != 0)
   {
@@ -502,13 +595,13 @@ int initFileNames(char* newfpth,
   }
   if (tmp_byte>=BUFF_SIZE || tmp_byte <0)
   {
-    printf("-- Invalid file name.\n");
+    printf("-- invalid file name.\n");
   }
   strcpy(newfpth, tmp_path);
   if(flg_silent != VALID) 
   {
-    printf("-- Output directory : %s\n", newfpth);
-    printf("-- Starting time    : %s\n", time);
+    printf("-- output directory : %s\n", newfpth);
+    printf("-- time stamp       : %s\n", time);
     printf("\n");
   }
   return 0;
@@ -571,18 +664,18 @@ int faddSglPointer(FILE *fp, int ni, double* a)
 }
 int transSeparatedFile(char* fpth)
 {
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
   printf("\ntransSeparatedFile:\n-- ");
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
   int i,j,row, col, flg_work = VALID;
   double **tmp_arr, **trans_arr;
   if ((tmp_arr 
         = readSeparatedValueFiles(&row, &col, fpth, VALID)) 
       == NULL) 
   {
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- null pointer at tmp_arr: %p\n", tmp_arr); 
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     flg_work = INVALID;
   }
   else
@@ -603,9 +696,9 @@ int transSeparatedFile(char* fpth)
         trans_arr[j][i]=tmp_arr[i][j];
       }
     }
-#ifdef _DEBUG_
+//#ifdef _DEBUG_
     printf("-- writing the transposed data.\n");
-#endif /* _DEBUG_ */
+//#endif /* _DEBUG_ */
     writeOutDblPointer(fpth, col, row, trans_arr);
   }
   return flg_work;
@@ -633,5 +726,13 @@ int getCurrentTime(char *str)
   timer = time(NULL);    
   date  = localtime(&timer);
   strftime(str, 255, "%Y%m%d_%H%M%S", date);
+  return 0;
+}
+int getSerialParallelCompTime(double *t_st)
+{
+  t_st[SER]   = GetCPUTime();
+#ifdef _OPENMP
+  t_st[PAR]   = omp_get_wtime();
+#endif /* _OPENMP */
   return 0;
 }

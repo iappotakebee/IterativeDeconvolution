@@ -8,7 +8,9 @@
 #include <time.h>
 #include <sys/time.h>
 #include <sys/stat.h>
+#ifdef _OPENMP
 #include <omp.h>
+#endif /* _OPENMP */
 #include "func.h"
 
 #define DEBUG_PRINT_INT(a) (printf("%s: %d\n", #a, a))
@@ -29,6 +31,11 @@
 #define INVALID 1
 #endif /* INVALID */
 //#define _DEBUG_
+
+/* time stamps */
+#define TYPES    2
+#define SER      0
+#define PAR      1
 
 //-- allocate & deallocate matrix
 extern void   **allocateMatrix(int size, int m, int n);
@@ -55,6 +62,11 @@ extern int convoluteMatMat
    (int m_dest, int n_dest, double *dest,
     int m_src, int n_src, double *src,
     int m_ker, int n_ker, double *ker);
+extern int convoluteVecVec 
+   (int n_dest, double *dest,
+    int n_src,  double *src, int n_ker,  double *ker);
+extern int calcMaxMin 
+   (int n, double *mat, double *max, double *min);
  
 //-- operate file actions
 extern int  initFileNames(char *newfpth, 
@@ -71,5 +83,5 @@ extern int transSeparatedFile(char* fpth);
 extern double GetElapsedTime();
 extern double GetCPUTime();
 extern int    getCurrentTime(char *str);
-
+extern int    getSerialParallelCompTime(double *t_st);
 #endif /* _INPUT_H */

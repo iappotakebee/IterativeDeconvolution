@@ -97,7 +97,7 @@
 #define INVALID 1
 #define BUFF_SIZE  1024
 #define N_LOOPMAX  2E5
-#define N_LOOPREC  1E5
+#define N_LOOPREC  2E4
 #define N_LOOPDISP 2E3
 #define N_MARGIN   1
 #define EPSILON    0.001

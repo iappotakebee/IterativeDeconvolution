@@ -548,22 +548,16 @@ int exportFiles(decnv_arr *data, int *flgs)
     tmp_decnv_arr = &data[i];
     printf("-- writing all the data"
        " (idx %d).\n",i);
-    printf("-- checking the format of exported file"
-       " (idx %d).\n",i);
     if (tmp_decnv_arr->exppth[0] != '\0')
       writeDecnvArray(data, i);
-    printf("-- checking the format of history file"\
+    printf("-- checking the format of history files"\
        " (idx %d).\n",i);
     if (tmp_decnv_arr->histpth[0] != '\0')
-    {
-      if (transSeparatedFile(tmp_decnv_arr->histpth) ==VALID)
-        printf("-- transposed the history file.\n");
-    }
+      transSeparatedFile(tmp_decnv_arr->histpth);
+    printf("-- checking the format of exported files."
+       " (idx %d).\n",i);
     if (tmp_decnv_arr->row == 1)
-    {
-     if ( transSeparatedFile(tmp_decnv_arr->exppth) == VALID)
-        printf("-- transposed the exported file.\n");
-    }
+      transSeparatedFile(tmp_decnv_arr->exppth);
     printf("-- data index %d completed.\n",i);
   }
   return 0;
@@ -604,8 +598,8 @@ int initCalculationRange
    (decnv_arr *data, double *parameters, int *flgs) 
 {
   int i, j, tmp_i, tmp_j,
-      mgnratio_row=(int)(parameters[MGNRATIO_ROW]), 
-      mgnratio_col=(int)(parameters[MGNRATIO_COL]);
+      mgnratio_row=(int)parameters[MGNRATIO_ROW], 
+      mgnratio_col=(int)parameters[MGNRATIO_COL];
   double offset_hgt = parameters[OFFSET_TGT];
   char mode[] = "mode";
   printf("\ninitCalculationRange:\n");
@@ -1167,13 +1161,13 @@ int deconvoluteMatrices
   {
     cnt++;
     /* check how many times the loop has been computed */
-    if (cnt > (int)(parameters[N_LOOPMAX]))
+    if (cnt > (int)parameters[N_LOOPMAX])
     {
       printf("...reached the maximum number of loops\n");
       break;
     }
     // display the current parameters
-    if (cnt % (int)(parameters[N_LOOPDISP]) == 0)
+    if (cnt % (int)parameters[N_LOOPDISP] == 0)
     {
       printf("loop: %9d, alpha: %9.4lf, rms: %9.4lf\n",
           cnt, parameters[ALPHA], parameters[RMS_AFT]);
@@ -1216,14 +1210,11 @@ int deconvoluteMatrices
         parameters[RMS_AFT] += (tmp*tmp);
       }
     }
-    parameters[RMS_AFT] 
-      = sqrt( parameters[RMS_AFT]/data[IDX_TGT].ttl );
+    parameters[RMS_AFT] = sqrt( parameters[RMS_AFT]/data[IDX_TGT].ttl );
     /* reduce alpha if the current errors worsen */
-    if (parameters[RMS_BEF] <= parameters[RMS_AFT])
+    if (parameters[RMS_BEF] < parameters[RMS_AFT])
     {
-      parameters[RMS_AFT] = parameters[RMS_BEF];  
-      if (parameters[ALPHA]*parameters[LS_ALPHA] > 
-          parameters[LIM_ALPHA])
+      if (parameters[ALPHA]*parameters[LS_ALPHA] > parameters[LIM_ALPHA])
       {
         parameters[ALPHA] *= parameters[LS_ALPHA];
         printf("...multiplied alpha by %9.4lf\n", parameters[LS_ALPHA]);
@@ -1235,266 +1226,31 @@ int deconvoluteMatrices
         parameters[ALPHA] = parameters[LIM_ALPHA];
       }
     }
-    /* calculate the evaluation function (err x unit) */
-    convoluteMatMat(
-        data[IDX_UPDATE].row, data[IDX_UPDATE].col,
-        data[IDX_UPDATE].mat[0],
-        data[IDX_ERR   ].row, data[IDX_ERR   ].col,
-        data[IDX_ERR   ].mat[0],
-        data[IDX_UNIT  ].row, data[IDX_UNIT  ].col,
-        data[IDX_UNIT  ].mat[0]
-        );
-    /* refresh the dwelltime using (t=t-alpha × (p-f)) */
+    else
+    {
+      /* calculate the evaluation function (err x unit) */
+      convoluteMatMat(
+          data[IDX_UPDATE].row, data[IDX_UPDATE].col,
+          data[IDX_UPDATE].mat[0],
+          data[IDX_ERR   ].row, data[IDX_ERR   ].col,
+          data[IDX_ERR   ].mat[0],
+          data[IDX_UNIT  ].row, data[IDX_UNIT  ].col,
+          data[IDX_UNIT  ].mat[0]
+          );
+      if ( (cnt % (int)parameters[N_LOOPREC] == 0) || cnt == 1 || cnt == 2)
+      {
+        writeTmpDecnvArrays(data, cnt);
+        cnt_rec++;
+        printf("...have memorized arrays %d times\n", cnt_rec);
+      } 
+      /* refresh the dwelltime using (t=t-alpha × (p-f)) */
 #ifdef _OPENMP
 #ifndef _SERIAL_CALCULATION 
 #pragma omp parallel for default(none)\
-    private(i,j, tmp)\
-    shared(parameters,data,gap_ud_i,gap_ud_j)
+      private(i,j, tmp)\
+      shared(parameters,data,gap_ud_i,gap_ud_j)
 #endif /* _SERIAL_CALCULATION */
 #endif /* _OPENMP */
-    for (i=0; i<data[IDX_UPDATE].row; i++)
-    {
-      for (j=0; j<data[IDX_UPDATE].col; j++)
-      {
-        tmp =
-          data[IDX_DWELL].mat[gap_ud_i+i][gap_ud_j+j] +
-          (parameters[ALPHA]*data[IDX_UPDATE].mat[i][j]);
-        /* limit the minimum dwell time */
-        if (tmp < parameters[OFFSET_DWELL])
-        {
-          data[IDX_DWELL].mat[gap_ud_i+i][gap_ud_j+j] = 
-            parameters[OFFSET_DWELL];
-        }
-        else
-        {
-          data[IDX_DWELL].mat[gap_ud_i+i][gap_ud_j+j] = 
-            tmp;
-        }
-      }
-    }
-    if ( (cnt % (int)(parameters[N_LOOPREC]) == 0) || 
-        cnt == 1 || cnt == 2)
-    {
-      writeTmpDecnvArrays(data, cnt);
-      cnt_rec++;
-      printf("...have memorized arrays %d times\n", cnt_rec);
-    } 
-  }
-  parameters[COUNT]=cnt;
-  return 0;
-}
-int deconvoluteMatricesParallel
-   (decnv_arr *data, double *parameters)
-{
-  int          gap_tr_i, gap_tr_j,gap_ud_i,gap_ud_j,
-               myid=-1,i,j,m,n,cnt=0, cnt_rec=0;
-  //int          control_flgs[CONTFLGNUM] = {
-  //  VALID, /* CONTINUELOOP */
-  //  VALID  /* RMSDECREASE  */
-  //};
-  double       tmp, *p_real, *p_update;
-
-  /**************************************************************
-    Calculate the dwell time in the loop
-  **************************************************************/
-  gap_tr_i = data[IDX_TGT   ].i_st - data[IDX_REAL ].i_st;
-  gap_tr_j = data[IDX_TGT   ].j_st - data[IDX_REAL ].j_st;
-  gap_ud_i = data[IDX_UPDATE].i_st - data[IDX_DWELL].i_st;
-  gap_ud_j = data[IDX_UPDATE].j_st - data[IDX_DWELL].j_st;
-  /* initialize the figure profile */
-  p_real  =data[IDX_REAL  ].mat[0];
-  p_update=data[IDX_UPDATE].mat[0];
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp parallel default(none)\
-  private(i,j, m,n, tmp, myid)\
-  shared(data,p_real,p_update,cnt,cnt_rec,parameters,\
-         gap_tr_i, gap_tr_j,gap_ud_i,gap_ud_j)
-  {
-    myid=omp_get_thread_num();
-    printf("-- ID:%d started parallel section (fork).\n",
-        myid);
-#pragma omp for reduction(+:p_real[:data[IDX_REAL].ttl])
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-    for (i=0; i<data[IDX_DWELL].row; i++)
-    {
-      for (j=0; j<data[IDX_DWELL].col; j++)
-      {
-        for (m=0; m<data[IDX_UNIT].row; m++)
-        {
-          for (n=0; n<data[IDX_UNIT].col; n++)
-          {
-            p_real[(i+m)*data[IDX_REAL].col + j+n] += 
-              data[IDX_DWELL].mat
-                [0][i*data[IDX_DWELL].col+ j] *
-              data[IDX_UNIT ].mat
-                [0][m*data[IDX_UNIT].col + n];
-          }
-        }
-      }
-    }
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp for 
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-    for (i=0; i<IDX_NUM; i++)
-    {
-      writeTmpDecnvArray(data, i, cnt);
-    }
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp barrier
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-    {
-      cnt_rec++;
-      printf("...ID:%d have memorized arrays %d times\n", 
-          myid, cnt_rec);
-    }
-    while (
-        parameters[RMS_BEF] > parameters[THRESHOLD] &&
-        cnt  < (int)(parameters[N_LOOPMAX])         &&
-        printf("ID:%d while loop %d\n", myid, cnt) > 0  &&
-        printf("ID:%d while rms  %lf\n", myid, parameters[RMS_BEF]) > 0  
-        )
-    {
-      /* intialize the arrays */
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for nowait
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      for (i=0; i<data[IDX_REAL  ].ttl; i++)
-      {
-        data[IDX_REAL  ].mat[0][i] = 0.0;
-      }
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      for (i=0; i<data[IDX_UPDATE].ttl; i++)
-      {
-        data[IDX_UPDATE].mat[0][i] = 0.0;
-      }
-      /* convolute the unit sputter yield with the dwell time */
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for reduction(+:p_real[:data[IDX_REAL].ttl])
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      for (i=0; i<data[IDX_DWELL].row; i++)
-      {
-        for (j=0; j<data[IDX_DWELL].col; j++)
-        {
-          for (m=0; m<data[IDX_UNIT].row; m++)
-          {
-            for (n=0; n<data[IDX_UNIT].col; n++)
-            {
-              p_real[(i+m)*data[IDX_REAL].col + j+n] 
-                += data[IDX_DWELL].mat
-                  [0][i*data[IDX_DWELL].col+ j]
-                  *  data[IDX_UNIT ].mat
-                  [0][m*data[IDX_UNIT ].col+ n];
-            }
-          }
-        }
-      }
-      /* calculate the errors between the target and the figure.
-       * rms_aft might be subject to round errors.  */
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp barrier
-#pragma omp single 
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      {
-        /* cnt was considered later */
-        // display the current parameters
-        if (cnt % (int)(parameters[N_LOOPDISP]) == 0)
-        {
-          printf("ID: %d, loop: %9d, alpha: %9.4lf, rms: %9.4lf after real\n",
-              myid, cnt, parameters[ALPHA], parameters[RMS_AFT]);
-        } 
-        cnt++;
-        parameters[RMS_BEF] = parameters[RMS_AFT];  
-        parameters[RMS_AFT] = 0.0;
-      }
-      printf("ID: %d, cnt %d\n", myid,cnt);
-      tmp = 0.0;
-      printf("ID: %d, before rms_bef, rms_aft: %lf, %lf\n",
-          myid, parameters[RMS_BEF],parameters[RMS_AFT]);
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for reduction(+:parameters[RMS_AFT: RMS_AFT+1])
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      for (i=0; i<data[IDX_ERR].row; i++)
-      {
-        for (j=0; j<data[IDX_ERR].col; j++)
-        {
-          tmp = 
-            data[IDX_TGT].mat[i][j] 
-            - data[IDX_REAL].mat[gap_tr_i + i][gap_tr_j + j];
-          data[IDX_ERR].mat[i][j] = tmp;
-          parameters[RMS_AFT] += (tmp*tmp);
-        }
-      }
-      printf("ID: %d, after rms_bef, rms_aft: %lf, %lf\n",
-          myid, parameters[RMS_BEF],parameters[RMS_AFT]);
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp barrier 
-#pragma omp single 
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      {
-        parameters[RMS_AFT] = 
-          sqrt( parameters[RMS_AFT]/data[IDX_TGT].ttl );
-        /* reduce alpha if the current errors worsen */
-        if (parameters[RMS_BEF] <= parameters[RMS_AFT])
-        {
-          parameters[RMS_AFT] = parameters[RMS_BEF];  
-          if (parameters[ALPHA]*parameters[LS_ALPHA] > 
-              parameters[LIM_ALPHA])
-          {
-            parameters[ALPHA] *= parameters[LS_ALPHA];
-            printf("ID: %d ...multiplied alpha by %9.4lf\n",
-                myid,parameters[LS_ALPHA]);
-            printf("ID: %d, loop: %9d, alpha: %9.4lf, rms: %9.4lf before update\n",
-                myid,cnt, parameters[ALPHA], parameters[RMS_AFT]);
-          }
-          else
-          {
-            parameters[ALPHA] = parameters[LIM_ALPHA];
-          }
-          /* continue; cannot be inserted in OpenMP loop */
-        }
-      }
-      printf("ID: %d, sqrt rms_bef, rms_aft: %lf, %lf\n",
-          myid, parameters[RMS_BEF],parameters[RMS_AFT]);
-      /* calculate the evaluation function (err x unit) */
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for reduction(+:p_update[:data[IDX_UPDATE].ttl])
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-      for (i=0; i<data[IDX_ERR  ].row; i++)
-      {
-        for (j=0; j<data[IDX_ERR  ].col; j++)
-        {
-          for (m=0; m<data[IDX_UNIT].row; m++)
-          {
-            for (n=0; n<data[IDX_UNIT].col; n++)
-            {
-              p_update[(i+m)*data[IDX_UPDATE].col + j+n] += 
-                data[IDX_ERR  ].mat
-                [0][i*data[IDX_ERR ].col+ j] *  
-                data[IDX_UNIT ].mat
-                  [0][m*data[IDX_UNIT].col+ n];
-            }
-          }
-        }
-      }
-      /* refresh the dwelltime using (t=t-alpha × (p-f)) */
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
       for (i=0; i<data[IDX_UPDATE].row; i++)
       {
         for (j=0; j<data[IDX_UPDATE].col; j++)
@@ -1515,42 +1271,7 @@ int deconvoluteMatricesParallel
           }
         }
       }
-      if ( (cnt % (int)(parameters[N_LOOPREC]) == 0) || 
-          cnt == 1 || cnt == 2)
-      {
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-//#pragma omp barrier
-//#pragma omp for nowait
-#pragma omp single
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-        for (i=0; i<IDX_NUM; i++)
-        {
-          writeTmpDecnvArray(data, i, cnt);
-        }
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp barrier
-#pragma omp single nowait
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-        {
-          cnt_rec++;
-          printf("ID: %d ...have memorized arrays %d times\n", 
-              myid,cnt_rec);
-        } 
-      }
     }
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-#pragma omp barrier
-#endif /*_SERIAL_CALCULATION, _OPENMP */
-    printf("ID: %d-- ended parallel section (join).\n",myid);
-#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
-  }
-#endif /*_SERIAL_CALCULATION, _OPENMP, END PARALLEL */
-  /* check how many times the loop has been computed */
-  if (cnt > (int)(parameters[N_LOOPMAX]))
-  {
-    printf("...reached the maximum number of loops\n");
-    /* break; cannot be inserted in OpneMP loop */
-    //control_flgs[CONTINUELOOP] = INVALID;
   }
   parameters[COUNT]=cnt;
   return 0;
@@ -1561,36 +1282,106 @@ int deconvoluteMatricesParallel
   int          gap_tr_j, gap_ud_j,
                j,cnt=0, cnt_rec=0;
   double       tmp;
+  gap_tr_j = data[IDX_TGT   ].j_st - data[IDX_REAL ].j_st;
+  gap_ud_j = data[IDX_UPDATE].j_st - data[IDX_DWELL].j_st;
   /**************************************************************
     Calculate the dwell time in the loop
    **************************************************************/
-  gap_tr_j = data[IDX_TGT   ].j_st - data[IDX_REAL ].j_st;
-  gap_ud_j = data[IDX_UPDATE].j_st - data[IDX_DWELL].j_st;
   /* initialize the figure profile */
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+  int     n;
+  double *p_real, *p_update;
+  p_real  =data[IDX_REAL  ].mat[0];
+  p_update=data[IDX_UPDATE].mat[0];
+  printf("deconvoluteVectors with OpenMP 1.\n"
+      "-- p_real  : %p (%p)\n"
+      "-- p_update: %p (%p)\n", 
+      p_real, data[IDX_REAL  ].mat[0],
+      p_update, data[IDX_UPDATE].mat[0]);
+#pragma omp parallel default(none)\
+  private(j, n)\
+  shared(data,cnt,p_real)
+  {
+#pragma omp for \
+    reduction(+:p_real[0:data[IDX_REAL].col])
+    for (j=0; j<data[IDX_DWELL].col; j++)
+    {
+      for (n=0; n<data[IDX_UNIT ].col; n++)
+      {
+        printf("j,n:%d, %d\n",j,n);
+        p_real[j+n] 
+          += (data[IDX_DWELL].mat[0][j]
+              *   data[IDX_UNIT ].mat[0][n]);
+      }
+    }
+#pragma omp for
+    for (j=0; j<IDX_NUM; j++)
+    {
+      writeTmpDecnvArray(data, j, cnt);
+    }
+    printf("printed\n");
+  }
+#else
+  printf("deconvoluteVectors without OpenMP 1.\n");
   convoluteVecVec(
       data[IDX_REAL ].col, data[IDX_REAL ].mat[0],
       data[IDX_DWELL].col, data[IDX_DWELL].mat[0],
       data[IDX_UNIT ].col, data[IDX_UNIT ].mat[0]
       );
   writeTmpDecnvArrays(data, cnt);
+  //printf("deconvoluteVectors OpenMP section 1 ended.\n");
+#endif /*_SERIAL_CALCULATION, _OPENMP */
   cnt_rec++;
   printf("...have memorized arrays %d times\n", cnt_rec);
   while (parameters[RMS_BEF] > parameters[THRESHOLD])
   {
     cnt++;
     /* check how many times the loop has been computed */
-    if (cnt > (int)(parameters[N_LOOPMAX]))
+    if (cnt > (int)parameters[N_LOOPMAX])
     {
       printf("...reached the maximum number of loops\n");
       break;
     }
     // display the current parameters
-    if (cnt % (int)(parameters[N_LOOPDISP]) == 0)
+    if (cnt % (int)parameters[N_LOOPDISP] == 0)
     {
       printf("loop: %9d, alpha: %9.4lf, rms: %9.4lf\n",
           cnt, parameters[ALPHA], parameters[RMS_AFT]);
     } 
     /* intialize the arrays */
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+#pragma omp parallel default(none)\
+    private(j, n)\
+    shared(data,cnt,p_real)
+    {
+     // printf("deconvoluteVectors with OpenMP 2.\n");
+#pragma omp for \
+      private(j)
+      for (j=0; j<data[IDX_REAL].ttl; j++)
+      {
+        data[IDX_REAL].mat[0][j] = 0.0;
+      }
+#pragma omp for \
+      private(j)
+      for (j=0; j<data[IDX_UPDATE].ttl; j++)
+      {
+        data[IDX_UPDATE].mat[0][j] = 0.0;
+      }
+#pragma omp for \
+      private(j, n)\
+      reduction(+:p_real[:data[IDX_REAL].col])
+      for (j=0; j<data[IDX_DWELL].col; j++)
+      {
+        for (n=0; n<data[IDX_UNIT ].col; n++)
+        {
+          p_real[j+n] 
+            += data[IDX_DWELL].mat[0][j]
+            *  data[IDX_UNIT ].mat[0][n];
+        }
+      }
+    }
+#else
+    printf("deconvoluteVectors without OpenMP 2.\n");
     initVectorToDblZero
       (data[IDX_REAL  ].ttl, data[IDX_REAL  ].mat[0]);
     initVectorToDblZero
@@ -1601,19 +1392,19 @@ int deconvoluteMatricesParallel
         data[IDX_DWELL].col, data[IDX_DWELL].mat[0],
         data[IDX_UNIT ].col, data[IDX_UNIT ].mat[0]
         );
+    //printf("deconvoluteVectors OpenMP section 2 ended.\n");
+#endif /*_SERIAL_CALCULATION, _OPENMP */
     /* calculate the errors between the target and the figure.
      * rms_aft might be subject to round errors.  */
     parameters[RMS_BEF] = parameters[RMS_AFT];  
     parameters[RMS_AFT] = 0.0;
     tmp = 0.0;
-#ifdef _OPENMP
-#ifndef _SERIAL_CALCULATION 
-#pragma omp parallel for default(none) \
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+#pragma omp parallel for default(none)\
     private(j,tmp)                   \
-    shared(data, gap_tr_j)\
+    shared (data, gap_tr_j)\
     reduction(+:parameters[RMS_AFT])
-#endif /* _SERIAL_CALCULATION */
-#endif /* _OPENMP */
+#endif /*_SERIAL_CALCULATION, _OPENMP */
     for (j=0; j<data[IDX_ERR].col; j++)
     {
       tmp = 
@@ -1622,15 +1413,18 @@ int deconvoluteMatricesParallel
       data[IDX_ERR].mat[0][j] = tmp;
       parameters[RMS_AFT] += (tmp*tmp);
     }
-    parameters[RMS_AFT] = sqrt( parameters[RMS_AFT]/data[IDX_TGT].ttl );
+    //printf("deconvoluteVectors OpenMP section 3 ended.\n");
+    parameters[RMS_AFT] 
+      = sqrt( parameters[RMS_AFT]/data[IDX_TGT].ttl );
     /* reduce alpha if the current errors worsen */
     if (parameters[RMS_BEF] < parameters[RMS_AFT])
     {
-      if ((parameters[ALPHA]*(parameters[LS_ALPHA])) > 
-          parameters[LIM_ALPHA])
+      if (parameters[ALPHA]*parameters[LS_ALPHA] 
+          > parameters[LIM_ALPHA])
       {
-        parameters[ALPHA] *= (parameters[LS_ALPHA]);
-        printf("...multiplied alpha by %9.4lf\n", parameters[LS_ALPHA]);
+        parameters[ALPHA] *= parameters[LS_ALPHA];
+        printf("...multiplied alpha by %9.4lf\n", 
+            parameters[LS_ALPHA]);
         printf("loop: %9d, alpha: %9.4lf, rms: %9.4lf\n",
             cnt, parameters[ALPHA], parameters[RMS_AFT]);
       }
@@ -1639,44 +1433,81 @@ int deconvoluteMatricesParallel
         parameters[ALPHA] = parameters[LIM_ALPHA];
       }
     }
-    /* calculate the evaluation function (err x unit) */
-    convoluteVecVec(
-        data[IDX_UPDATE].col, data[IDX_UPDATE].mat[0],
-        data[IDX_ERR   ].col, data[IDX_ERR   ].mat[0],
-        data[IDX_UNIT  ].col, data[IDX_UNIT  ].mat[0]
-        );
-    /* refresh the dwelltime using (t=t-alpha × (p-f)) */
-#ifdef _OPENMP
-#ifndef _SERIAL_CALCULATION 
-#pragma omp parallel for default(none)\
-    private(j, tmp)\
-    shared(parameters,data,gap_ud_j)
-#endif /* _SERIAL_CALCULATION */
-#endif /* _OPENMP */
-    for (j=0; j<data[IDX_UPDATE].col; j++)
+    else
     {
-      tmp =
-        data[IDX_DWELL].mat[0][gap_ud_j+j] +
-        (parameters[ALPHA]*(data[IDX_UPDATE].mat[0][j])); /* limit the minimum dwell time */
-      if (tmp < parameters[OFFSET_DWELL])
+      /* calculate the evaluation function (err x unit) */
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+#pragma omp parallel default(none)\
+      private(j, n)\
+      shared(data,cnt,cnt_rec,parameters,p_update)
       {
-        data[IDX_DWELL].mat[0][gap_ud_j+j] = 
-          parameters[OFFSET_DWELL];
-      }
-      else
+#pragma omp for \
+        reduction(+:p_update[:data[IDX_UPDATE].col])
+        for (j=0; j<data[IDX_ERR].col; j++)
+        {
+          for (n=0; n<data[IDX_UNIT ].col; n++)
+          {
+            p_update[j+n] 
+              += data[IDX_ERR].mat[0][j]
+              *  data[IDX_UNIT ].mat[0][n];
+          }
+        }
+        if ( (cnt % (int)parameters[N_LOOPREC] == 0) || 
+            cnt == 1 || 
+            cnt == 2)
+        {
+#pragma omp for 
+          for (j=0; j<IDX_NUM; j++)
+          {
+            writeTmpDecnvArray(data, j, cnt);
+          }
+#pragma omp single 
+          {
+            cnt_rec++;
+            printf("...have memorized arrays %d times\n", 
+                cnt_rec);
+          }
+        }
+      } 
+#else
+      convoluteVecVec(
+          data[IDX_UPDATE].col, data[IDX_UPDATE].mat[0],
+          data[IDX_ERR   ].col, data[IDX_ERR   ].mat[0],
+          data[IDX_UNIT  ].col, data[IDX_UNIT  ].mat[0]
+          );
+      if ( (cnt % (int)parameters[N_LOOPREC] == 0) || 
+          cnt == 1 || 
+          cnt == 2)
       {
-        data[IDX_DWELL].mat[0][gap_ud_j+j] = 
-          tmp;
+        writeTmpDecnvArrays(data, cnt);
+        cnt_rec++;
+        printf("...have memorized arrays %d times\n", cnt_rec);
+      } 
+#endif /*_SERIAL_CALCULATION, _OPENMP */
+      /* refresh the dwelltime using (t=t-alpha × (p-f)) */
+#if defined( _OPENMP) && !defined( _SERIAL_CALCULATION )
+#pragma omp parallel for \
+      shared (gap_ud_j, parameters)\
+      private(j, tmp)
+#endif /*_SERIAL_CALCULATION, _OPENMP */
+      for (j=0; j<data[IDX_UPDATE].col; j++)
+      {
+        tmp =
+          data[IDX_DWELL].mat[0][gap_ud_j+j] +
+          (parameters[ALPHA]*data[IDX_UPDATE].mat[0][j]);
+        /* limit the minimum dwell time */
+        if (tmp < parameters[OFFSET_DWELL])
+        {
+          data[IDX_DWELL].mat[0][gap_ud_j+j] = 
+            parameters[OFFSET_DWELL];
+        }
+        else
+        {
+          data[IDX_DWELL].mat[0][gap_ud_j+j] = 
+            tmp;
+        }
       }
     }
-    if ( (cnt % (int)(parameters[N_LOOPREC]) == 0) || 
-        cnt == 1 || 
-        cnt == 2)
-    {
-      writeTmpDecnvArrays(data, cnt);
-      cnt_rec++;
-      printf("...have memorized arrays %d times\n", cnt_rec);
-    } 
   }
   parameters[COUNT]=cnt;
   return 0;

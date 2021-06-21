@@ -11,17 +11,17 @@ int main (int argc, char *argv[])
     70.0,      /* OFFSET_TGT in nm   */
     1.0,        /* MGNRATIO_ROW (int) */
     1.0,        /* MGNRATIO_COL (int) */
-    1000,     /* ALPHA              */
+    0.1,     /* ALPHA              */
     0.01,       /* THRESHOLD          */
     1000,     /* N_LOOPMAX   (int)  */
-    1000,      /* N_LOOPREC   (int)  */
+    5,      /* N_LOOPREC   (int)  */
     1,       /* N_LOOPDISP  (int)  */
     10E7,       /* RMS_BEF            */
     10E7,       /* RMS_AFT            */
     -1E8,       /* FIGERR_MAX         */
      1E8,       /* FIGERR_MIN         */
     0.95,       /* LS_ALPHA           */
-    1.0E-4,     /* LIM_ALPHA          */
+    0.5E-6,     /* LIM_ALPHA          */
     0           /* COUNT     (int)    */
   };
   /**************************************************************
@@ -90,6 +90,11 @@ int main (int argc, char *argv[])
   Record all data and write them down in files
 **************************************************************/
   printf("\n...done.\n");
+  printf("loop: %9d, alpha: %9.4lf, \n"\
+         "rms: %9.4lf, PV: %9.4lf\n",
+         (int)parameters[COUNT], parameters[ALPHA], 
+         parameters[RMS_AFT], 
+         parameters[FIGERR_MAX]-parameters[FIGERR_MIN]);
   getSerialParallelCompTime(timestamps[ST_EXP  ]);
   displaySumDwellTime
     (data[IDX_DWELL].ttl, data[IDX_DWELL].mat[0]);
@@ -100,11 +105,6 @@ int main (int argc, char *argv[])
   terminateDecnvArrays(data, flgs);
   getSerialParallelCompTime(timestamps[EN_EXP  ]);
   getSerialParallelCompTime(timestamps[EN_TOTAL]);
-  printf("loop: %9d, alpha: %9.4lf, \n"\
-         "rms: %9.4lf, PV: %9.4lf\n",
-         (int)parameters[COUNT], parameters[ALPHA], 
-         parameters[RMS_AFT], 
-         parameters[FIGERR_MAX]-parameters[FIGERR_MIN]);
   printf("Serial Computation time:\n"\
      "-- total: %9.4lf sec.\n"\
      "-- init : %9.4lf sec.\n"\
